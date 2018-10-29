@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Button, Image } from "react-native"
+import { Text, View, Button, Image, StyleSheet, Platform } from "react-native"
 
 export default class HomePage extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -11,15 +11,8 @@ export default class HomePage extends React.Component {
       ),
       headerRight: (
         <Button
-          onPress={navigation.getParam('increaseCount')}
+          onPress={() => navigation.navigate('User')}
           title="User"
-          style={{ backgroundColor: 'orange' }}
-          color={'blue'}
-        />
-      ), headerLeft: (
-        <Button
-          onPress={navigation.getParam('increaseCount')}
-          title="Camera"
           style={{ backgroundColor: 'orange' }}
           color={'blue'}
         />

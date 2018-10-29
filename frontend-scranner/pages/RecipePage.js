@@ -11,22 +11,14 @@ export default class RecipePage extends React.Component {
       ),
       headerRight: (
         <Button
-          onPress={navigation.getParam('increaseCount')}
+          onPress={() => navigation.navigate('User')}
           title="User"
-          style={{ backgroundColor: 'orange' }}
-          color={'blue'}
-        />
-      ), headerLeft: (
-        <Button
-          onPress={navigation.getParam('increaseCount')}
-          title="Camera"
           style={{ backgroundColor: 'orange' }}
           color={'blue'}
         />
       )
     }
   }
-
   render() {
     return <View style={
       {

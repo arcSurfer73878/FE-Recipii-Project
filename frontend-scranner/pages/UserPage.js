@@ -1,7 +1,7 @@
 import React from "react";
-import { Text, View, Button, Image } from "react-native"
+import { Text, View, Button, Image, StyleSheet, Platform } from "react-native"
 
-export default class PostPage extends React.Component {
+export default class UserPage extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: (
@@ -19,15 +19,18 @@ export default class PostPage extends React.Component {
       )
     }
   }
+
   render() {
-    return <View style={
-      {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-      }
-    }>
-      <Text>Post</Text>
-    </ View>
+    return (
+      <View style={
+        {
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center"
+        }
+      }>
+        <Text>User</Text>
+      </View>
+    )
   }
 }
