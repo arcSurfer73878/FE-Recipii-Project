@@ -4,6 +4,13 @@ import { Text, View, Button, Image, StyleSheet, Platform } from "react-native"
 export default class HomePage extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      headerLeft: (
+        <Button
+          onPress={() => navigation.navigate('Camera')}
+          title="Camera"
+          color={'blue'}
+        />
+      ),
       headerTitle: (
         <Text
           style={{ width: 30, height: 30, backgroundColor: 'orange', justifyContent: "center" }}
@@ -13,7 +20,6 @@ export default class HomePage extends React.Component {
         <Button
           onPress={() => navigation.navigate('User')}
           title="User"
-          style={{ backgroundColor: 'orange' }}
           color={'blue'}
         />
       )
