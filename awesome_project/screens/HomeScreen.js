@@ -25,7 +25,7 @@ export default class HomeScreen extends React.Component {
         >
           <View style={styles.container}>
             <Text>RECIPii</Text>
-            <Button
+            {/* <Button
               title="Sign in"
               color="#841584"
               accessibilityLabel="Learn more about this purple button"
@@ -39,7 +39,7 @@ export default class HomeScreen extends React.Component {
               title="Learn More"
               color="#841584"
               accessibilityLabel="Learn more about this purple button"
-            />
+            /> */}
           </View>
         </ImageBackground>
 
