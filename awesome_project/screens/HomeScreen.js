@@ -9,9 +9,30 @@ import {
 } from 'react-native';
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: (
+        <Text
+          style={{ width: 30, height: 30, backgroundColor: 'orange', justifyContent: "center" }}
+        >Logo</Text>
+      ),
+      headerRight: (
+        <Button
+          onPress={navigation.getParam('increaseCount')}
+          title="User"
+          style={{ backgroundColor: 'orange' }}
+          color={'blue'}
+        />
+      ), headerLeft: (
+        <Button
+          onPress={navigation.getParam('increaseCount')}
+          title="Camera"
+          style={{ backgroundColor: 'orange' }}
+          color={'blue'}
+        />
+      )
+    }
+  }
 
   render() {
     return (
@@ -25,7 +46,7 @@ export default class HomeScreen extends React.Component {
         >
           <View style={styles.container}>
             <Text>RECIPii</Text>
-            {/* <Button
+            <Button
               title="Sign in"
               color="#841584"
               accessibilityLabel="Learn more about this purple button"
@@ -39,7 +60,7 @@ export default class HomeScreen extends React.Component {
               title="Learn More"
               color="#841584"
               accessibilityLabel="Learn more about this purple button"
-            /> */}
+            />
           </View>
         </ImageBackground>
 
