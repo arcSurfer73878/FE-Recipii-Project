@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, Button, Image, StyleSheet, Platform } from "react-native"
 
-export default class UserPage extends React.Component {
+export default class UserScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: (
@@ -9,14 +9,14 @@ export default class UserPage extends React.Component {
           style={{ width: 30, height: 30, backgroundColor: 'orange', justifyContent: "center" }}
         >Logo</Text>
       ),
-      headerRight: (
-        <Button
-          onPress={() => navigation.navigate('User')}
-          title="User"
-          style={{ backgroundColor: 'orange' }}
-          color={'blue'}
-        />
-      )
+      // headerRight: (
+      //   <Button
+      //     onPress={() => navigation.navigate('User')}
+      //     title="User"
+      //     style={{ backgroundColor: 'orange' }}
+      //     color={'blue'}
+      //   />
+      // )
     }
   }
 

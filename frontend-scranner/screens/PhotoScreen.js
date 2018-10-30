@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const pictureSize = 150;
 
-export default class PhotoPage extends React.Component {
+export default class PhotoScreen extends React.Component {
   state = {
     selected: false,
     faces: [],

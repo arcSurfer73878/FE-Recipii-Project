@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, Button, Image, StyleSheet, Platform } from "react-native"
 
-export default class HomePage extends React.Component {
+export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerLeft: (

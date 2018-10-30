@@ -4,8 +4,6 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 
 export default class App extends React.Component {
-
-
   render() {
     return (
       <View style={styles.container}>
@@ -18,6 +16,5 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
 });

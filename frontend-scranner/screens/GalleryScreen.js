@@ -2,11 +2,11 @@ import React from 'react';
 import { Image, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { FileSystem, FaceDetector, MediaLibrary, Permissions } from 'expo';
 import { MaterialIcons } from '@expo/vector-icons';
-import PhotoPage from './PhotoPage';
+import PhotoPage from './PhotoScreen';
 
 const PHOTOS_DIR = FileSystem.documentDirectory + 'photos';
 
-export default class GalleryPage extends React.Component {
+export default class GalleryScreen extends React.Component {
   state = {
     faces: {},
     images: {},

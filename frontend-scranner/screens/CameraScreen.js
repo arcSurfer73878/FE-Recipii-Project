@@ -9,7 +9,7 @@ import {
   Slider,
   Platform
 } from 'react-native';
-import GalleryScreen from './GalleryPage';
+import GalleryScreen from './GalleryScreen';
 import {
   Ionicons,
   MaterialIcons,

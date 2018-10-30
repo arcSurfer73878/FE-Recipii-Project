@@ -1,13 +1,13 @@
 import React from 'react';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-import HomePage from '../pages/HomePage';
-import PostPage from '../pages/PostPage';
-import RecipePage from '../pages/RecipePage';
-import BasketPage from '../pages/BasketPage';
+import HomeScreen from '../screens/HomeScreen';
+import PostScreen from '../screens/PostScreen';
+import RecipeScreen from '../screens/RecipeScreen';
+import BasketScreen from '../screens/BasketScreen';
 
 const HomeStack = createStackNavigator({
-  Home: HomePage,
+  Home: HomeScreen,
 });
 
 HomeStack.navigationOptions = {
@@ -16,7 +16,7 @@ HomeStack.navigationOptions = {
 };
 
 const PostStack = createStackNavigator({
-  Post: PostPage,
+  Post: PostScreen,
 });
 
 PostStack.navigationOptions = {
@@ -25,7 +25,7 @@ PostStack.navigationOptions = {
 };
 
 const RecipeStack = createStackNavigator({
-  Recipe: RecipePage,
+  Recipe: RecipeScreen,
 });
 
 RecipeStack.navigationOptions = {
@@ -33,7 +33,7 @@ RecipeStack.navigationOptions = {
 
 };
 const BasketStack = createStackNavigator({
-  Basket: BasketPage,
+  Basket: BasketScreen,
 });
 
 BasketStack.navigationOptions = {

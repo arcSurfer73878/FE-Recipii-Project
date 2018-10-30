@@ -1,14 +1,16 @@
 import React from 'react';
-import { createSwitchNavigator } from 'react-navigation';
-import UserPage from '../pages/UserPage';
-import CameraPage from '../pages/CameraPage';
+import { createStackNavigator } from 'react-navigation';
 import NavBar from './Nav';
+import HomeScreen from '../screens/HomeScreen'
+import UserScreen from '../screens/UserScreen';
+import CameraScreen from '../screens/CameraScreen';
 
 
-const AppNavigator = createSwitchNavigator({
+const AppNavigator = createStackNavigator({
   Nav: NavBar,
-  User: UserPage,
-  Camera: CameraPage,
+  Home: HomeScreen,
+  Camera: CameraScreen,
+  User: UserScreen,
 });
 
 export default AppNavigator;
