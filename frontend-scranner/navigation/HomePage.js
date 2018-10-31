@@ -11,6 +11,7 @@ import { Header } from 'react-native-elements'
 export default class HomePage extends Component {
   render() {
     return (
+
       <View style={styles.container}>
         <Header leftComponent={{ icon: 'camera-alt', color: '#fff', onPress: () => this.props.navigation.navigate('Camera') }}
           centerComponent={{ text: "SCRANNER", style: { color: 'black' } }}
