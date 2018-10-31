@@ -1,20 +1,39 @@
-import React from "react";
-import { Text, View, Button, Image } from "react-native"
-
-export default class HomePage extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: "Home"
-  }
-
+import React, { Component } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  Platform,
+  ImageBackground
+} from "react-native";
+import { Header } from 'react-native-elements'
+export default class HomePage extends Component {
   render() {
-    return <View style={
-      {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-      }
-    }>
-      <Text>Home</Text>
-    </View>
+    return (
+      <View style={styles.container}>
+        <Header leftComponent={{ icon: 'camera-alt', color: '#fff', onPress: () => this.props.navigation.navigate('Camera') }}
+          centerComponent={{ text: "Scranner", style: { color: 'black' } }}
+          rightComponent={{ icon: 'face', color: '#fff', onPress: () => this.props.navigation.navigate('User') }} />
+        <ImageBackground
+          source={
+            require('../assets/photo-recipe.png')
+          }
+          style={styles.welcomeImage}
+        >
+          <Text>HomePage</Text>
+        </ImageBackground>
+      </View>
+    );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  welcomeImage: {
+    height: '100%',
+    width: '100%'
+  }
+});
