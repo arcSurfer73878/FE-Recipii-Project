@@ -62,9 +62,11 @@ export default class RecipePage extends React.Component {
   render() {
     return (
       <View>
-        <Header leftComponent={{ icon: 'camera-alt', color: '#fff', onPress: () => this.props.navigation.navigate('Camera') }}
-          centerComponent={{ text: "Scranner", style: { color: 'black' } }}
-          rightComponent={{ icon: 'face', color: '#fff', onPress: () => this.props.navigation.navigate('User') }} />
+        <Header
+          outerContainerStyles={{ backgroundColor: '#ffffff' }}
+          leftComponent={{ icon: 'camera-alt', color: 'black', onPress: () => this.props.navigation.navigate('Camera') }}
+          centerComponent={{ text: "SCRANNER", style: { color: 'black' } }}
+          rightComponent={{ icon: 'face', color: 'black', onPress: () => this.props.navigation.navigate('User') }} />
         <Text>Recipe:</Text>
         <View>{this.state.recipes.map(recipe => { return (<Text key={recipe._id}>{recipe.name}</Text>) })}</View>
         <Text>Ingredients:</Text>

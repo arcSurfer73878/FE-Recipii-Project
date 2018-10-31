@@ -9,9 +9,11 @@ export default class PostPage extends React.Component {
   render() {
     return (
       <View>
-        <Header leftComponent={{ icon: 'camera-alt', color: '#fff', onPress: () => this.props.navigation.navigate('Camera') }}
-          centerComponent={{ text: "Scranner", style: { color: 'black' } }}
-          rightComponent={{ icon: 'face', color: '#fff', onPress: () => this.props.navigation.navigate('User') }} />
+        <Header
+          outerContainerStyles={{ backgroundColor: '#ffffff' }}
+          leftComponent={{ icon: 'camera-alt', color: 'black', onPress: () => this.props.navigation.navigate('Camera') }}
+          centerComponent={{ text: "SCRANNER", style: { color: 'black' } }}
+          rightComponent={{ icon: 'face', color: 'black', onPress: () => this.props.navigation.navigate('User') }} />
         <Text>Post</Text>
       </ View>
     )

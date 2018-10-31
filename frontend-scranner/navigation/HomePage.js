@@ -13,9 +13,11 @@ export default class HomePage extends Component {
     return (
 
       <View style={styles.container}>
-        <Header leftComponent={{ icon: 'camera-alt', color: '#fff', onPress: () => this.props.navigation.navigate('Camera') }}
+        <Header
+          outerContainerStyles={{ backgroundColor: '#ffffff' }}
+          leftComponent={{ icon: 'camera-alt', color: 'black', onPress: () => this.props.navigation.navigate('Camera') }}
           centerComponent={{ text: "SCRANNER", style: { color: 'black' } }}
-          rightComponent={{ icon: 'face', color: '#fff', onPress: () => this.props.navigation.navigate('User') }} />
+          rightComponent={{ icon: 'face', color: 'black', onPress: () => this.props.navigation.navigate('User') }} />
         <ImageBackground
           source={
             require('../assets/photo-recipe.png')

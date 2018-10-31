@@ -106,9 +106,12 @@ export default class BasketPage extends React.Component {
   }
   render() {
     return (
-      <View><Header leftComponent={{ icon: 'camera-alt', color: '#fff', onPress: () => this.props.navigation.navigate('Camera') }}
-        centerComponent={{ text: "Scranner", style: { color: 'black' } }}
-        rightComponent={{ icon: 'face', color: '#fff', onPress: () => this.props.navigation.navigate('User') }} />
+      <View>
+        <Header
+          outerContainerStyles={{ backgroundColor: '#ffffff' }}
+          leftComponent={{ icon: 'camera-alt', color: 'black', onPress: () => this.props.navigation.navigate('Camera') }}
+          centerComponent={{ text: "SCRANNER", style: { color: 'black' } }}
+          rightComponent={{ icon: 'face', color: 'black', onPress: () => this.props.navigation.navigate('User') }} />
         <Text>Basket:</Text>
         <View>{this.state.shoppingList.map(shopping => { return (shopping.ingredients.map(ingredient => { return (<Text key={ingredient._id}>{ingredient.name}</Text>) })) })}</View>
       </View>

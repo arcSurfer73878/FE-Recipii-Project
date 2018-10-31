@@ -3,7 +3,6 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons'
 import { Header } from 'react-native-elements'
-import { analyseRecipe } from './utils/index.js'
 
 export default class CameraExample extends React.Component {
   state = {
@@ -25,7 +24,9 @@ export default class CameraExample extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <Header rightComponent={{ icon: 'keyboard-arrow-right', color: '#fff', onPress: () => this.props.navigation.navigate('Home') }}
+          <Header
+            outerContainerStyles={{ backgroundColor: '#ffffff' }}
+            rightComponent={{ icon: 'keyboard-arrow-right', color: 'black', onPress: () => this.props.navigation.navigate('Home') }}
             centerComponent={{ text: "Camera", style: { color: 'black' } }} />
           <Camera ref={ref => { this.camera = ref }} style={{ flex: 1 }} type={this.state.type}>
             <View style={{ position: "absolute", bottom: 35, alignSelf: "center" }}>
@@ -41,17 +42,5 @@ export default class CameraExample extends React.Component {
       );
     }
   }
-
-  takePicture = () => {
-    if (this.camera) {
-      this.camera.takePictureAsync({ base64: true, })
-        .then(pictureString => {
-          console.log(pictureString)
-          analyseRecipe(pictureString)
-        })
-    }
-  }
-
-
 
 }
