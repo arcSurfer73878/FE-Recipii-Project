@@ -19,6 +19,9 @@ import {
  Octicons
 } from '@expo/vector-icons';
 
+
+const analyseRecipe = require('/home/emma/Northcoders/Project/frontend/Scranner-Project/frontend-scranner/utils/index.js')
+
 const landmarkSize = 2;
 
 const flashModeOrder = {
@@ -129,6 +132,11 @@ export default class CameraPage extends React.Component {
   });
   this.setState({ newPhotos: true });
  }
+
+// onPictureSaved = async photo => {
+//   await analyseRecipe(photo.uri)
+//   this.setState({ newPhotos: true });
+//  }
 
  onBarCodeScanned = code => {
   this.setState(
