@@ -12,6 +12,7 @@
     "@google-cloud/vision": "^0.22.1",
     "axios": "^0.18.0",
     "expo": "^30.0.1",
+    "frisbee": "^2.0.5",
     "fs": "0.0.1-security",
     "rapidapi-connect": "0.0.6",
     "react": "16.3.1",

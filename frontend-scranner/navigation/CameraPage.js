@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Header } from 'react-native-elements'
 import { GOOGLEVISIONAPI, SPOONACULARAPI } from '../config/index.js'
 import axios from 'axios'
+import Frisbee from 'frisbee'
 
 export default class CameraExample extends React.Component {
   state = {
@@ -72,32 +73,29 @@ export default class CameraExample extends React.Component {
       .then(results => {
         console.log("<<<<<<<<<Response")
         const recipeText = results.data.responses[0].textAnnotations[0].description;
-        // const ingredientList = recipeText.split("\n")
-        // const ingredients = ingredientList.slice(ingredientList.indexOf('Ingredients') + 1)
-        this.parseIngredients()
+        const ingredientList = recipeText.split("\n")
+        const ingredients = ingredientList.slice(ingredientList.indexOf('Ingredients') + 1)
+        this.parseIngredients(ingredients)
       })
       .catch(err => {
         console.error('ERROR:', err);
       });
   }
 
-  parseIngredients = (ingredient) => {
-    const URL = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/parseIngredients"
-    console.log(SPOONACULARAPI)
-    axios({
-      method: 'POST',
-      url: `${URL}?ingredientList=coffee&servings=2`,
+  parseIngredients = (ingredients) => {
+    const api = new Frisbee({
+      baseURI: "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/parseIngredients",
       headers: {
         "X-Mashape-Key": SPOONACULARAPI,
         "X-Mashape-Host": "spoonacular-recipe-food-nutrition-v1.p.mashape.com",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": 'axios/0.18.0'
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
+    });
+    Promise.all(ingredients.map((ingredient) => {
+      return api.post(`?ingredientList=${ingredient}&servings=2`)
     })
-      .then(result => {
-        console.log("<<<<<<<<<SPOONACULAR")
-        console.log(result);
-      })
+    )
+      .then(response => response.forEach(ingredientDetails => ingredientDetails))
       .catch(err => {
         console.error('ERROR2:', Object.entries(err));
       })
