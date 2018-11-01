@@ -52,6 +52,7 @@ const AppNavigator = createSwitchNavigator({
   Bottom: BottomNavigator,
   User: UserScreen,
   Camera: CameraScreen,
+  App,
 })
 
 
