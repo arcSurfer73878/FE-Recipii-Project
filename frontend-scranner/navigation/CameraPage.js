@@ -3,6 +3,8 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons'
 import { Header } from 'react-native-elements'
+import { GOOGLEVISIONAPI } from '../config/index.js'
+import axios from 'axios'
 
 export default class CameraExample extends React.Component {
   state = {
@@ -16,6 +18,7 @@ export default class CameraExample extends React.Component {
   }
 
   render() {
+    // console.log(GOOGLEVISIONAPI)
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
       return <View />;
@@ -41,6 +44,41 @@ export default class CameraExample extends React.Component {
         </View>
       );
     }
+  }
+
+  takePicture = () => {
+    if (this.camera) {
+      this.camera.takePictureAsync({ base64: true, })
+        .then(pictureString => {
+          // console.log(pictureString.uri)
+          this.analyseRecipe(pictureString.base64)
+        })
+    }
+  }
+
+  analyseRecipe = fileName => {
+    const visionRequest = {
+      requests: [
+        {
+          image: {
+            content: fileName,
+          },
+          features: [
+            {
+              "type": 'TEXT_DETECTION'
+            }
+          ]
+        }]
+    }
+    return axios.post(`https://vision.googleapis.com/v1/images:annotate?key=${GOOGLEVISIONAPI}`, visionRequest)
+      .then(results => {
+        const recipeText = results.data.responses[0].textAnnotations[0].description;
+        // const fullTextAnnotation = results[0].fullTextAnnotation;
+        // console.log(fullTextAnnotation.text)
+      })
+      .catch(err => {
+        console.error('ERROR:', err);
+      });
   }
 
 }
