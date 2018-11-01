@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons'
 import { Header } from 'react-native-elements'
-import { GOOGLEVISIONAPI } from '../config/index.js'
+import { GOOGLEVISIONAPI, SPOONACULARAPI } from '../config/index.js'
 import axios from 'axios'
 
 export default class CameraExample extends React.Component {
@@ -18,7 +18,6 @@ export default class CameraExample extends React.Component {
   }
 
   render() {
-    // console.log(GOOGLEVISIONAPI)
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
       return <View />;
@@ -50,7 +49,6 @@ export default class CameraExample extends React.Component {
     if (this.camera) {
       this.camera.takePictureAsync({ base64: true, })
         .then(pictureString => {
-          // console.log(pictureString.uri)
           this.analyseRecipe(pictureString.base64)
         })
     }
@@ -72,13 +70,37 @@ export default class CameraExample extends React.Component {
     }
     return axios.post(`https://vision.googleapis.com/v1/images:annotate?key=${GOOGLEVISIONAPI}`, visionRequest)
       .then(results => {
+        console.log("<<<<<<<<<Response")
         const recipeText = results.data.responses[0].textAnnotations[0].description;
-        // const fullTextAnnotation = results[0].fullTextAnnotation;
-        // console.log(fullTextAnnotation.text)
+        // const ingredientList = recipeText.split("\n")
+        // const ingredients = ingredientList.slice(ingredientList.indexOf('Ingredients') + 1)
+        this.parseIngredients()
       })
       .catch(err => {
         console.error('ERROR:', err);
       });
+  }
+
+  parseIngredients = (ingredient) => {
+    const URL = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/parseIngredients"
+    console.log(SPOONACULARAPI)
+    axios({
+      method: 'POST',
+      url: `${URL}?ingredientList=coffee&servings=2`,
+      headers: {
+        "X-Mashape-Key": SPOONACULARAPI,
+        "X-Mashape-Host": "spoonacular-recipe-food-nutrition-v1.p.mashape.com",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": 'axios/0.18.0'
+      }
+    })
+      .then(result => {
+        console.log("<<<<<<<<<SPOONACULAR")
+        console.log(result);
+      })
+      .catch(err => {
+        console.error('ERROR2:', Object.entries(err));
+      })
   }
 
 }
