@@ -43,7 +43,6 @@ export default class App extends React.Component {
 
 const BottomNavigator = createBottomTabNavigator({
   Home: HomeScreen,
-  Post: PostScreen,
   Recipe: RecipeScreen,
   Basket: BasketScreen
 })
@@ -52,6 +51,7 @@ const AppNavigator = createSwitchNavigator({
   Bottom: BottomNavigator,
   User: UserScreen,
   Camera: CameraScreen,
+  Post: PostScreen,
   App,
 })
 
