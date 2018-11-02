@@ -1,7 +1,8 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, ImageBackground, Button } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { AppLoading, Asset, Font } from 'expo';
 import { createBottomTabNavigator, createSwitchNavigator, createStackNavigator } from 'react-navigation'
+import { Icon } from 'react-native-elements'
 import HomeScreen from "./navigation/HomePage"
 import PostScreen from './navigation/PostPage'
 import RecipeScreen from "./navigation/RecipePage"
@@ -62,9 +63,51 @@ export default class App extends React.Component {
 }
 
 const BottomNavigator = createBottomTabNavigator({
-  Home: HomeScreen,
-  Post: PostScreen,
-  Basket: BasketScreen
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: () => ({
+      tabBarOptions: {
+        showLabel: false
+      },
+      tabBarIcon: ({ tintColor }) => (
+        <Icon
+          name="home"
+          color={tintColor}
+          size={24}
+        />
+      )
+    })
+  },
+  Post: {
+    screen: PostScreen,
+    navigationOptions: () => ({
+      tabBarOptions: {
+        showLabel: false
+      },
+      tabBarIcon: ({ tintColor }) => (
+        <Icon
+          name="add"
+          color={tintColor}
+          size={24}
+        />
+      )
+    })
+  },
+  Basket: {
+    screen: BasketScreen,
+    navigationOptions: () => ({
+      tabBarOptions: {
+        showLabel: false
+      },
+      tabBarIcon: ({ tintColor }) => (
+        <Icon
+          name="shopping-basket"
+          color={tintColor}
+          size={24}
+        />
+      )
+    })
+  },
 })
 const AppNavigator = createSwitchNavigator({
   Bottom: BottomNavigator,
