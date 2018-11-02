@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons'
 import { Header } from 'react-native-elements'
-import { GOOGLEVISIONAPI, SPOONACULARAPI, testRecipeImage } from '../config/index.js'
+import { GOOGLEVISIONAPI, SPOONACULARAPI } from '../config/index.js'
 import axios from 'axios'
 import Frisbee from 'frisbee'
 
@@ -83,17 +83,17 @@ export default class CameraExample extends React.Component {
         console.log("Google Vision Responding")
         const recipeText = results.data.responses[0].textAnnotations[0].description;
         // const ingredientList = recipeText.split("\n")
-        const ingredientList = ['yeild: 4 Servings', 'Cook Time: 20 mins', 'Ingredients', '2 Zucchini', '1 small onion']
+        const ingredientList = ['Grandmas Stuffed Zucchini', 'yeild: 4 Servings', 'Cook Time: 20 mins', 'Ingredients', '2 Zucchini', '1 small onion']
         const serves = this.extractServings(ingredientList)
         const ingredients = ingredientList.slice(ingredientList.indexOf('Ingredients') + 1)
-        this.parseIngredients(ingredients, serves)
+        this.parseIngredients(ingredients, serves, ingredientList[0])
       })
       .catch(err => {
         console.error('ERROR:', err);
       });
   }
 
-  parseIngredients = (ingredients, serves) => {
+  parseIngredients = (ingredients, serves, title) => {
     const api = new Frisbee({
       baseURI: "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/parseIngredients",
       headers: {
