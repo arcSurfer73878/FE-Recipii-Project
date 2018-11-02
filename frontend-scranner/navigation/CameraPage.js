@@ -137,6 +137,7 @@ export default class CameraExample extends React.Component {
       servings,
       ingredients: ingredientList,
     }
+
     console.log(request, "<<<<<<<<<<<<<<<<");
     // TODO: change this to add props
     api.post(`https://scranner123.herokuapp.com/api/recipes/5bdc70fed1830c1a584407ac`, { body: request })
