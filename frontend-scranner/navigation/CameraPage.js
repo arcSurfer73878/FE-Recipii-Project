@@ -107,10 +107,40 @@ export default class CameraExample extends React.Component {
       return api.post(`?ingredientList=${ingredient}&servings=${serves}`)
     })
     )
-      .then(response => response.forEach(ingredientDetails => console.log(ingredientDetails)))
+      .then(response => this.addNewRecipe(response, title, serves)
+      )
       .catch(err => {
         console.error('ERROR2:', Object.entries(err));
       })
+  }
+
+  addNewRecipe = (ingredients, title, servings) => {
+    const api = new Frisbee({
+      headers: {
+        "Content-Type": 'application/json',
+        "Accept": 'application/json'
+      }
+    });
+
+    const ingredientList = ingredients.map(ingredient => {
+      return {
+        foodType: ingredient.body[0].aisle,
+        name: ingredient.body[0].name,
+        amount: ingredient.body[0].amount,
+        units: ingredient.body[0].unit,
+        price: ingredient.body[0].estimatedCost.value,
+      }
+    });
+
+    const request = {
+      name: title,
+      servings,
+      ingredients: ingredientList,
+    }
+    console.log(request, "<<<<<<<<<<<<<<<<");
+    // TODO: change this to add props
+    api.post(`https://scranner123.herokuapp.com/api/recipes/5bdc70fed1830c1a584407ac`, { body: request })
+      .then(response => console.log(response));
   }
 
 }
