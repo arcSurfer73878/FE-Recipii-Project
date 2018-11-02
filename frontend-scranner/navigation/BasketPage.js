@@ -106,7 +106,7 @@ export default class BasketPage extends React.Component {
   }
   render() {
     return (
-      <View>
+      <ScrollView>
         <Header
           outerContainerStyles={{ backgroundColor: '#ffffff' }}
           leftComponent={{ icon: 'camera-alt', color: 'black', onPress: () => this.props.navigation.navigate('Camera') }}
@@ -114,7 +114,7 @@ export default class BasketPage extends React.Component {
           rightComponent={{ icon: 'face', color: 'black', onPress: () => this.props.navigation.navigate('User') }} />
         <Text>Basket:</Text>
         <View>{this.state.shoppingList.map(shopping => { return (shopping.ingredients.map(ingredient => { return (<Text key={ingredient._id}>{ingredient.name}</Text>) })) })}</View>
-      </View>
+      </ScrollView>
     )
   }
 }

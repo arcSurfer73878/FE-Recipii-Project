@@ -16,9 +16,9 @@ export default class PostPage extends React.Component {
         <View>
           <Header
             outerContainerStyles={{ backgroundColor: '#ffffff' }}
-            leftComponent={{ icon: 'keyboard-arrow-left', color: 'black', onPress: () => this.props.navigation.navigate('Recipe') }}
+            rightComponent={{ icon: 'face', color: 'black', onPress: () => this.props.navigation.navigate('User') }}
             centerComponent={{ text: 'Add a Recipe', style: { color: 'black' } }}
-            rightComponent={{ icon: 'camera-alt', color: 'black', onPress: () => this.props.navigation.navigate('Camera') }} />
+            leftComponent={{ icon: 'camera-alt', color: 'black', onPress: () => this.props.navigation.navigate('Camera') }} />
         </View>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Button

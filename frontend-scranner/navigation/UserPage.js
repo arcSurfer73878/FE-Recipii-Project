@@ -13,22 +13,22 @@ import userImg from '../assets/userpicture.jpg'
 
 class UserPage extends Component {
   state = {
-    user: {
-      _id: "5bd73ddfbf9a0930d7f77b15",
-      username: "emmajarvis",
-      firstName: "Emma",
-      lastName: "Jarvis",
-      email: "emmajarvis@gmail.com",
-      profilePicture: "",
-      address: {
-        houseNumber: "",
-        street: "",
-        city: "",
-        postcode: "",
-        telephone: "",
-      },
-      __v: 0
-    }
+    // user: {
+    //   _id: "5bd73ddfbf9a0930d7f77b15",
+    //   username: "emmajarvis",
+    //   firstName: "Emma",
+    //   lastName: "Jarvis",
+    //   email: "emmajarvis@gmail.com",
+    //   profilePicture: "",
+    //   address: {
+    //     houseNumber: "",
+    //     street: "",
+    //     city: "",
+    //     postcode: "",
+    //     telephone: "",
+    //   },
+    //   __v: 0
+    // }
   }
 
   render() {
@@ -42,16 +42,16 @@ class UserPage extends Component {
         <Header
           outerContainerStyles={{ backgroundColor: '#ffffff' }}
           leftComponent={{ icon: 'keyboard-arrow-left', color: 'black', onPress: () => this.props.navigation.navigate('Home') }}
-          centerComponent={{ text: this.state.user.username, style: { color: 'black' } }} />
+          centerComponent={{ text: this.props.user.username, style: { color: 'black' } }} />
         <View style={styles = { flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <View style={styles = { padding: 20, flex: 1 }}>
-            <Image source={!this.state.user.profilePicture ? userImg : this.state.user.profilePicture} style={styles = { height: 150, width: 150, borderRadius: 75 }} />
+            <Image source={!this.props.user.profilePicture ? userImg : this.props.user.profilePicture} style={styles = { height: 150, width: 150, borderRadius: 75 }} />
           </View>
           <Text></Text>
           <View style={styles = { flex: 1, padding: 20, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={styles = { fontSize: 18, fontFamily: 'Arial' }}>{this.state.user.firstName} {this.state.user.lastName} </Text>
+            <Text style={styles = { fontSize: 18, fontFamily: 'Arial' }}>{this.props.user.firstName} {this.props.user.lastName} </Text>
             <Text></Text>
-            <Text style={styles = { fontSize: 18, fontFamily: 'Arial' }}>{this.state.user.email}</Text>
+            <Text style={styles = { fontSize: 18, fontFamily: 'Arial' }}>{this.props.user.email}</Text>
           </View>
           <View style={styles = { flex: 2, padding: 10 }}>
             <TouchableOpacity style={styles = {
