@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons'
 import { Header } from 'react-native-elements'
-import { GOOGLEVISIONAPI, SPOONACULARAPI } from '../config/index.js'
+import { GOOGLEVISIONAPI, SPOONACULARAPI, testRecipeImage } from '../config/index.js'
 import axios from 'axios'
 import Frisbee from 'frisbee'
 
@@ -55,6 +55,15 @@ export default class CameraExample extends React.Component {
     }
   }
 
+  extractServings = ingredientList => {
+    const regex = /(serv)|(yield)|(portion)/i;
+    const servingsIndex = ingredientList.findIndex(textLine => {
+      return regex.test(textLine)
+    })
+    const servings = ingredientList[servingsIndex].match(/\d+/)
+    return servings[0]
+  }
+
   analyseRecipe = fileName => {
     const visionRequest = {
       requests: [
@@ -71,18 +80,20 @@ export default class CameraExample extends React.Component {
     }
     return axios.post(`https://vision.googleapis.com/v1/images:annotate?key=${GOOGLEVISIONAPI}`, visionRequest)
       .then(results => {
-        console.log("<<<<<<<<<Response")
+        console.log("Google Vision Responding")
         const recipeText = results.data.responses[0].textAnnotations[0].description;
-        const ingredientList = recipeText.split("\n")
+        // const ingredientList = recipeText.split("\n")
+        const ingredientList = ['yeild: 4 Servings', 'Cook Time: 20 mins', 'Ingredients', '2 Zucchini', '1 small onion']
+        const serves = this.extractServings(ingredientList)
         const ingredients = ingredientList.slice(ingredientList.indexOf('Ingredients') + 1)
-        this.parseIngredients(ingredients)
+        this.parseIngredients(ingredients, serves)
       })
       .catch(err => {
         console.error('ERROR:', err);
       });
   }
 
-  parseIngredients = (ingredients) => {
+  parseIngredients = (ingredients, serves) => {
     const api = new Frisbee({
       baseURI: "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/parseIngredients",
       headers: {
@@ -92,10 +103,11 @@ export default class CameraExample extends React.Component {
       }
     });
     Promise.all(ingredients.map((ingredient) => {
-      return api.post(`?ingredientList=${ingredient}&servings=2`)
+      console.log(`Parsing>>>>>${ingredient}`)
+      return api.post(`?ingredientList=${ingredient}&servings=${serves}`)
     })
     )
-      .then(response => response.forEach(ingredientDetails => ingredientDetails))
+      .then(response => response.forEach(ingredientDetails => console.log(ingredientDetails)))
       .catch(err => {
         console.error('ERROR2:', Object.entries(err));
       })
