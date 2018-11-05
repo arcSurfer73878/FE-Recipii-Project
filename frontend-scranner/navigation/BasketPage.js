@@ -12,11 +12,7 @@ export default class BasketPage extends React.Component {
     shoppingList: [],
   };
   render() {
-    const allIngredients = []
-    this.state.shoppingList.map(shopping => {
-      shopping.ingredients.map(ingredient => allIngredients.push(ingredient.name))
-    })
-    const individualIngredient = Array.from(new Set(allIngredients))
+    const shoppingList = this.state.shoppingList
     return (
       <View>
         <Header
@@ -28,7 +24,7 @@ export default class BasketPage extends React.Component {
           }}
           centerComponent={{ text: "Basket", style: { color: "black" } }}
           rightComponent={{
-            icon: "face",
+            icon: "person",
             color: "black",
             onPress: () => this.props.navigation.navigate("User")
           }}
@@ -37,22 +33,22 @@ export default class BasketPage extends React.Component {
           <Text>
             {" "}
             You have{" "}
-            {individualIngredient.length}
+            {shoppingList.length}
             {' '}items left to buy
           </Text>
         </View>
         <ScrollView>
-          {individualIngredient.map(ingredient => {
+          {shoppingList.map(ingredient => {
             return (
-              <View key={Math.random(50)}>
+              <View key={ingredient._id}>
                 <CheckBox
-                  title={ingredient}
+                  title={ingredient.name}
                   checked={this.state.checked}
                   onPress={() =>
                     this.setState({ checked: !this.state.checked })
                   }
                 />
-                <Text>amount: X</Text>
+                <Text>amount: {ingredient.amount}{' '}{ingredient.amount > 1 && ingredient.units === "tin" && "can" || "" ? ingredient.units + 's' : ingredient.units}</Text>
               </View>
             )
           })}
@@ -70,11 +66,11 @@ export default class BasketPage extends React.Component {
     });
     api
       .get(
-        "https://scranner123.herokuapp.com/api/shopping-lists/5bdc70fed1830c1a584407ac"
+        "https://scranner123.herokuapp.com/api/shopping-lists/5be055751d089848b0d05f9b"
       )
       .then(response => {
         this.setState({
-          shoppingList: response.body.recipes
+          shoppingList: response.body.shoppingList.ingredients
         })
       });
   }
