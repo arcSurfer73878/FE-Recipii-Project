@@ -8,7 +8,6 @@ export default class BasketPage extends React.Component {
     tabBarLabel: "Basket"
   };
   state = {
-    checked: false,
     shoppingList: [],
   };
   render() {
@@ -38,14 +37,15 @@ export default class BasketPage extends React.Component {
           </Text>
         </View>
         <ScrollView>
-          {shoppingList.map(ingredient => {
+          {shoppingList.map((ingredient, index) => {
             return (
               <View key={ingredient._id}>
                 <CheckBox
+                  key={index}
                   title={ingredient.name}
-                  checked={this.state.checked}
+                  checked={this.state.shoppingList[index].isChecked}
                   onPress={() =>
-                    this.setState({ checked: !this.state.checked })
+                    this.handlePress(index)
                   }
                 />
                 <Text>amount: {ingredient.amount}{' '}{ingredient.amount > 1 && ingredient.units === "tin" && "can" || "" ? ingredient.units + 's' : ingredient.units}</Text>
@@ -55,6 +55,15 @@ export default class BasketPage extends React.Component {
         </ScrollView>
       </View>
     );
+  }
+
+  handlePress = (index) => {
+    const changedBox = this.state.shoppingList[index]
+    changedBox.isChecked = !changedBox.isChecked
+    const newList = [...this.state.shoppingList]
+    this.setState({
+      shoppingList: newList
+    })
   }
 
   componentDidMount() {
@@ -69,8 +78,11 @@ export default class BasketPage extends React.Component {
         "https://scranner123.herokuapp.com/api/shopping-lists/5be055751d089848b0d05f9b"
       )
       .then(response => {
+        const formattedIngredients = response.body.shoppingList.ingredients.map(ingredient => {
+          return { ...ingredient, isChecked: false }
+        })
         this.setState({
-          shoppingList: response.body.shoppingList.ingredients
+          shoppingList: formattedIngredients
         })
       });
   }
