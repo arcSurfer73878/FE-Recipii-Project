@@ -73,7 +73,7 @@ const BottomNavigator = createBottomTabNavigator({
         <Icon
           name="home"
           color={tintColor}
-          size={24}
+          size={30}
         />
       )
     })
@@ -88,7 +88,7 @@ const BottomNavigator = createBottomTabNavigator({
         <Icon
           name="add"
           color={tintColor}
-          size={24}
+          size={40}
         />
       )
     })
@@ -103,7 +103,7 @@ const BottomNavigator = createBottomTabNavigator({
         <Icon
           name="shopping-basket"
           color={tintColor}
-          size={24}
+          size={30}
         />
       )
     })
