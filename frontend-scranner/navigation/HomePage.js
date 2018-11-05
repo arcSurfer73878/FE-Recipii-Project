@@ -8,30 +8,34 @@ import {
   ImageBackground,
   ScrollView
 } from "react-native";
-import RecipeList from '../components/RecipeList.js'
-import { Header } from 'react-native-elements'
+import RecipeList from "../components/RecipeList.js";
+import { Header } from "react-native-elements";
 export default class HomePage extends Component {
   render() {
     return (
-
       <View style={styles.container}>
         <Header
-          outerContainerStyles={{ backgroundColor: '#ffffff' }}
-          leftComponent={{ icon: 'camera-alt', color: 'black', onPress: () => this.props.navigation.navigate('Camera') }}
-          centerComponent={{ text: "SCRANNER", style: { color: 'black' } }}
-          rightComponent={{ icon: 'face', color: 'black', onPress: () => this.props.navigation.navigate('User') }} />
+          outerContainerStyles={{ backgroundColor: "#ffffff" }}
+          leftComponent={{
+            icon: "camera-alt",
+            color: "black",
+            onPress: () => this.props.navigation.navigate("Camera")
+          }}
+          centerComponent={{ text: "SCRANNER", style: { color: "black" } }}
+          rightComponent={{
+            icon: "face",
+            color: "black",
+            onPress: () => this.props.navigation.navigate("User")
+          }}
+        />
         <ImageBackground
-          source={
-            require('../assets/photo-recipe.png')
-          }
+          source={require("../assets/photo-recipe.png")}
           style={styles.welcomeImage}
         >
-          <ScrollView >
+          <ScrollView>
             <RecipeList />
           </ScrollView>
-
         </ImageBackground>
-
       </View>
     );
   }
@@ -39,10 +43,10 @@ export default class HomePage extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   welcomeImage: {
-    height: '100%',
-    width: '100%'
+    height: "100%",
+    width: "100%"
   }
 });
