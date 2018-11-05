@@ -37,9 +37,11 @@ export default class CameraExample extends React.Component {
             {this.state.isLoading && <Progress.CircleSnail animated={true} thickness={10} size={250} style={{ position: "absolute", bottom: 200, alignSelf: "center" }}></Progress.CircleSnail>}
             <View style={{ position: "absolute", bottom: 35, alignSelf: "center" }}>
               <TouchableOpacity
-                onPress={this.handleClick}
+               onPress={this.takePicture}
+                // onPress={(this.takePicture, () => {
+                //   this.setState({isLoading: true})})}
                 style={{ alignSelf: 'center' }}
-              >
+                >
                 <Ionicons name="ios-radio-button-on" size={70} color="white" />
               </TouchableOpacity>
             </View>
@@ -48,25 +50,25 @@ export default class CameraExample extends React.Component {
       );
     }
   }
+  
+//  setIsLoading = () => {
+//    this.setState({isLoading: true})
+
+//   }
 
   takePicture = () => {
     if (this.camera) {
-        this.camera.takePictureAsync({ base64: true, })
-        .then(pictureString => {
-          this.analyseRecipe(pictureString.base64)
+      const options = {base64: true};
+      this.setState({isLoading: true})
+      console.log(this.state.isLoading)
+    this.camera.takePictureAsync(options)
+    .then(data => {
+      console.log(this.state.isLoading)
+        this.analyseRecipe(data.base64)
         })
-    }
+      }
   }
 
-  handleClick = () => {
-    this.setState({isLoading: true})
-  }
-
-  componentDidUpdate() {
-    if (this.state.isLoading) {
-      this.takePicture()
-    }
-  }
   
   extractServings = ingredientList => {
     const regex = /(serv)|(yield)|(portion)/i;
@@ -94,7 +96,7 @@ export default class CameraExample extends React.Component {
     return axios.post(`https://vision.googleapis.com/v1/images:annotate?key=${GOOGLEVISIONAPI}`, visionRequest)
       .then(results => {
         console.log("Google Vision Responding")
-        const recipeText = results.data.responses[0].textAnnotations[0].description;
+        // const recipeText = results.data.responses[0].textAnnotations[0].description;
         // const ingredientList = recipeText.split("\n")
         const ingredientList = ['Grandmas Stuffed Zucchini', 'yeild: 4 Servings', 'Cook Time: 20 mins', 'Ingredients', '2 Zucchini', '1 small onion']
         const serves = this.extractServings(ingredientList)
