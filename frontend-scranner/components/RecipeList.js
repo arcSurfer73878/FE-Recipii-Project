@@ -37,7 +37,7 @@ export default class RecipeList extends Component {
             <View key={recipe._id} style={styles = {
               backgroundColor: '#f1f1f1',
               margin: 2, alignItems: 'center',
-              padding: 20
+              padding: 20, width: '80%'
             }}>
               <Text style={{ fontFamily: 'Georgia', fontSize: 20 }}>{recipe.name}</Text>
               <Text> </Text>
