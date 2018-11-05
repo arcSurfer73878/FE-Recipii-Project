@@ -1,11 +1,12 @@
 import React from "react";
 import { Text, View, ScrollView, Button, Image } from "react-native"
-import { Header } from 'react-native-elements'
+import { Header, CheckBox } from 'react-native-elements'
 export default class BasketPage extends React.Component {
   static navigationOptions = {
     tabBarLabel: "Basket"
   }
   state = {
+    checked: false,
     shoppingList: [
       {
         recipes: [
@@ -106,15 +107,24 @@ export default class BasketPage extends React.Component {
   }
   render() {
     return (
-      <ScrollView>
+      <View>
         <Header
           outerContainerStyles={{ backgroundColor: '#ffffff' }}
           leftComponent={{ icon: 'camera-alt', color: 'black', onPress: () => this.props.navigation.navigate('Camera') }}
-          centerComponent={{ text: "SCRANNER", style: { color: 'black' } }}
+          centerComponent={{ text: "Basket", style: { color: 'black' } }}
           rightComponent={{ icon: 'face', color: 'black', onPress: () => this.props.navigation.navigate('User') }} />
-        <Text>Basket:</Text>
-        <View>{this.state.shoppingList.map(shopping => { return (shopping.ingredients.map(ingredient => { return (<Text key={ingredient._id}>{ingredient.name}</Text>) })) })}</View>
-      </ScrollView>
+        <View>
+          <Text> You have {this.state.shoppingList.map(shopping => {
+            return shopping.ingredients.length
+          })} items left to buy</Text>
+        </View>
+        <ScrollView>{this.state.shoppingList.map(shopping => {
+          return (shopping.ingredients.map(ingredient => {
+            return (<View key={ingredient._id}><CheckBox title={ingredient.name}
+              checked={this.state.checked} onPress={() => this.setState({ checked: !this.state.checked })} /></View>)
+          }))
+        })}</ScrollView>
+      </View>
     )
   }
 }

@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Button,
   Platform,
-  ImageBackground
+  ImageBackground,
+  ScrollView
 } from "react-native";
 import RecipeList from '../components/RecipeList.js'
 import { Header } from 'react-native-elements'
@@ -25,8 +26,10 @@ export default class HomePage extends Component {
           }
           style={styles.welcomeImage}
         >
-          <Text>HomePage</Text>
-          <RecipeList />
+          <ScrollView >
+            <RecipeList />
+          </ScrollView>
+
         </ImageBackground>
 
       </View>

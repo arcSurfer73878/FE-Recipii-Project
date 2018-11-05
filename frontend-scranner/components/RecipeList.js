@@ -30,24 +30,36 @@ export default class RecipeList extends Component {
   }
 
   render() {
-    return (<View>
-      (this.state.recipes.length > 0 &&
-        {this.state.recipes.map(recipe => {
-        return (
-          <View key={recipe._id}>
-            <Text>{recipe.name}</Text>
-            <Text>Servings: {recipe.servings}</Text>
-            {console.log(recipe.ingredients)}
-            {recipe.ingredients.map(ingredient => {
-              return <View key={ingredient._id}>
-                <Text>{ingredient.amount}{ingredient.unit} {ingredient.name}</Text>
-              </View>
-            })}
-          </View>
-        )
-      })}
+    return (<View style={styles.container}>
+      ({this.state.recipes.length > 0 &&
+        this.state.recipes.map(recipe => {
+          return (
+            <View key={recipe._id} style={styles = {
+              backgroundColor: '#f1f1f1',
+              margin: 2, alignItems: 'center',
+              padding: 20
+            }}>
+              <Text style={{ fontFamily: 'Georgia', fontSize: 20 }}>{recipe.name}</Text>
+              <Text> </Text>
+              <Text style={{ fontFamily: 'Georgia', fontSize: 18 }}>Servings: {recipe.servings}</Text>
+              {/* {console.log(recipe.ingredients)} */}
+              {recipe.ingredients.map(ingredient => {
+                return <View key={ingredient._id}>
+                  <Text style={{ fontFamily: 'Georgia', fontSize: 18 }}>{ingredient.amount}{ingredient.unit} {ingredient.name}</Text>
+                </View>
+              })}
+              <Text></Text>
+            </View>
+          )
+        })}
       )
     </View>)
   };
 
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
+});

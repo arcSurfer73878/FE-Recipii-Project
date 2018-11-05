@@ -12,25 +12,6 @@ import { Header } from 'react-native-elements'
 import userImg from '../assets/userpicture.jpg'
 
 class UserPage extends Component {
-  state = {
-    // user: {
-    //   _id: "5bd73ddfbf9a0930d7f77b15",
-    //   username: "emmajarvis",
-    //   firstName: "Emma",
-    //   lastName: "Jarvis",
-    //   email: "emmajarvis@gmail.com",
-    //   profilePicture: "",
-    //   address: {
-    //     houseNumber: "",
-    //     street: "",
-    //     city: "",
-    //     postcode: "",
-    //     telephone: "",
-    //   },
-    //   __v: 0
-    // }
-  }
-
   render() {
     return (<ImageBackground
       source={
