@@ -6,11 +6,13 @@ import { Header } from 'react-native-elements'
 import { GOOGLEVISIONAPI, SPOONACULARAPI } from '../config/index.js'
 import axios from 'axios'
 import Frisbee from 'frisbee'
+import * as Progress from 'react-native-progress';
 
 export default class CameraExample extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
+    isLoading: false,
   };
 
   async componentWillMount() {
@@ -32,9 +34,10 @@ export default class CameraExample extends React.Component {
             rightComponent={{ icon: 'keyboard-arrow-right', color: 'black', onPress: () => this.props.navigation.navigate('Home') }}
             centerComponent={{ text: "Camera", style: { color: 'black' } }} />
           <Camera ref={ref => { this.camera = ref }} style={{ flex: 1 }} type={this.state.type}>
+            {this.state.isLoading && <Progress.CircleSnail animated={true} thickness={10} size={250} style={{ position: "absolute", bottom: 200, alignSelf: "center" }}></Progress.CircleSnail>}
             <View style={{ position: "absolute", bottom: 35, alignSelf: "center" }}>
               <TouchableOpacity
-                onPress={this.takePicture}
+                onPress={this.handleClick}
                 style={{ alignSelf: 'center' }}
               >
                 <Ionicons name="ios-radio-button-on" size={70} color="white" />
@@ -48,13 +51,23 @@ export default class CameraExample extends React.Component {
 
   takePicture = () => {
     if (this.camera) {
-      this.camera.takePictureAsync({ base64: true, })
+        this.camera.takePictureAsync({ base64: true, })
         .then(pictureString => {
           this.analyseRecipe(pictureString.base64)
         })
     }
   }
 
+  handleClick = () => {
+    this.setState({isLoading: true})
+  }
+
+  componentDidUpdate() {
+    if (this.state.isLoading) {
+      this.takePicture()
+    }
+  }
+  
   extractServings = ingredientList => {
     const regex = /(serv)|(yield)|(portion)/i;
     const servingsIndex = ingredientList.findIndex(textLine => {

@@ -26,9 +26,9 @@ export default class HomePage extends Component {
           }
           style={styles.welcomeImage}
         >
-          <ScrollView >
+          {/* <ScrollView >
             <RecipeList />
-          </ScrollView>
+          </ScrollView> */}
 
         </ImageBackground>
 
