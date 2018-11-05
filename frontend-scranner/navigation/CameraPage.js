@@ -6,11 +6,13 @@ import { Header } from "react-native-elements";
 import { GOOGLEVISIONAPI, SPOONACULARAPI } from "../config/index.js";
 import axios from "axios";
 import Frisbee from "frisbee";
+import * as Progress from 'react-native-progress';
 
 export default class CameraExample extends React.Component {
   state = {
     hasCameraPermission: null,
-    type: Camera.Constants.Type.back
+    type: Camera.Constants.Type.back,
+    isLoading: false,
   };
 
   async componentWillMount() {
@@ -43,13 +45,16 @@ export default class CameraExample extends React.Component {
             style={{ flex: 1 }}
             type={this.state.type}
           >
+            {this.state.isLoading && <Progress.CircleSnail animated={true} thickness={10} size={250} style={{ position: "absolute", bottom: 200, alignSelf: "center" }}></Progress.CircleSnail>}
             <View
               style={{ position: "absolute", bottom: 35, alignSelf: "center" }}
             >
+
               <TouchableOpacity
                 onPress={this.takePicture}
                 style={{ alignSelf: "center" }}
               >
+
                 <Ionicons name="ios-radio-button-on" size={70} color="white" />
               </TouchableOpacity>
             </View>
@@ -61,11 +66,16 @@ export default class CameraExample extends React.Component {
 
   takePicture = () => {
     if (this.camera) {
-      this.camera.takePictureAsync({ base64: true }).then(pictureString => {
-        this.analyseRecipe(pictureString.base64);
-      });
+      const options = { base64: true };
+      this.setState({ isLoading: true })
+      console.log(this.state.isLoading)
+      this.camera.takePictureAsync(options)
+        .then(data => {
+          console.log(this.state.isLoading)
+          this.analyseRecipe(data.base64)
+        })
     }
-  };
+  }
 
   extractServings = ingredientList => {
     const regex = /(serv)|(yield)|(portion)/i;
