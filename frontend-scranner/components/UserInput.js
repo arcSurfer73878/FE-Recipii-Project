@@ -22,6 +22,7 @@ export default class UserInput extends Component {
           placeholderTextColor="white"
           underlineColorAndroid="transparent"
           onChangeText={text => this.setState({text})}
+          value={this.state.text}
         />
       </View>
     );
@@ -29,7 +30,6 @@ export default class UserInput extends Component {
 }
 
 UserInput.propTypes = {
-  // source: PropTypes.number.isRequired,
   placeholder: PropTypes.string.isRequired,
   secureTextEntry: PropTypes.bool,
   autoCorrect: PropTypes.bool,

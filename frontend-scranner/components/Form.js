@@ -5,6 +5,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   View,
+  TextInput
 } from 'react-native';
 
 import UserInput from './UserInput';
@@ -16,6 +17,7 @@ export default class Form extends Component {
     this.state = {
       showPassword: true,
       press: false,
+      username: '',
     };
     this.showPassword = this.showPassword.bind(this);
   }
@@ -29,29 +31,33 @@ export default class Form extends Component {
   render() {
     return (
       <View>
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <UserInput
-          placeholder="Username"
+      {/* <KeyboardAvoidingView behavior="padding" style={styles.container}> */}
+
+         <TextInput
+          //style={styles.input}
+          placeholder={'Username'}
           autoCapitalize={'none'}
           returnKeyType={'done'}
-          autoCorrect={false}
-          getUser={this.props.getUser}
+          placeholderTextColor="white"
+          underlineColorAndroid="transparent"
+          onChangeText={username => this.setState({username})}
+          value={this.state.username}
         />
-        <UserInput
+        {/* <UserInput
           secureTextEntry={this.state.showPassword}
           placeholder="Password"
           returnKeyType={'done'}
           autoCapitalize={'none'}
           autoCorrect={false}
-        />
-      </KeyboardAvoidingView>
-      <ButtonSubmit login={this.props.changeView} />
+        /> */}
+      {/* </KeyboardAvoidingView> */}
+      <ButtonSubmit onClick={() => this.handleClick(this.state.username)} />
       </View>
     );
   }
 
-  handleClick = () => {
-
+  handleClick = (username) => {
+    this.props.getUser(username)
   }
 
 }
