@@ -11,11 +11,7 @@ import {
 import RecipeList from "../components/RecipeList.js";
 import { Header } from "react-native-elements";
 export default class HomePage extends Component {
-  state = {
-    basket: [],
-  }
   render() {
-    console.log(this.state.basket)
     return (
       <View style={styles.container}>
         <Header
@@ -44,13 +40,6 @@ export default class HomePage extends Component {
       </View>
     );
   }
-
-  addToBasket = data => {
-    this.setState({
-      basket: data
-    })
-  }
-
 }
 
 const styles = StyleSheet.create({
