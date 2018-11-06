@@ -63,6 +63,11 @@ export default class CameraExample extends React.Component {
       );
     }
   }
+  
+//  setIsLoading = () => {
+//    this.setState({isLoading: true})
+
+//   }
 
   takePicture = () => {
     if (this.camera) {
@@ -74,9 +79,10 @@ export default class CameraExample extends React.Component {
           console.log(this.state.isLoading)
           this.analyseRecipe(data.base64)
         })
-    }
+      }
   }
 
+  
   extractServings = ingredientList => {
     const regex = /(serv)|(yield)|(portion)/i;
     const servingsIndex = ingredientList.findIndex(textLine => {
