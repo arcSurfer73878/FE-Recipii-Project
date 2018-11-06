@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, ScrollView, Button, Image } from "react-native";
 import { Header, CheckBox } from "react-native-elements";
+import { NavigationEvents } from 'react-navigation'
 import Frisbee from "frisbee";
 
 export default class BasketPage extends React.Component {
@@ -9,11 +10,20 @@ export default class BasketPage extends React.Component {
   };
   state = {
     shoppingList: [],
+    isFocused: false,
   };
+  onDidFocus = () => {
+    this.setState({ isFocused: true })
+  }
+  onDidBlur = () => {
+    this.setState({ isFocused: false }
+    )
+  }
   render() {
     const shoppingList = this.state.shoppingList
     return (
       <View>
+        <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
         <Header
           outerContainerStyles={{ backgroundColor: "#ffffff" }}
           leftComponent={{
@@ -69,7 +79,15 @@ export default class BasketPage extends React.Component {
     })
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.isFocused !== this.state.isFocused) this.getBasket()
+  }
+
   componentDidMount() {
+    this.getBasket()
+  }
+
+  getBasket = () => {
     const api = new Frisbee({
       headers: {
         Accept: "application/json",
