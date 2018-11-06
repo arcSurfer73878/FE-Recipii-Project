@@ -23,16 +23,16 @@ class UserPage extends Component {
         <Header
           outerContainerStyles={{ backgroundColor: '#ffffff' }}
           leftComponent={{ icon: 'keyboard-arrow-left', color: 'black', onPress: () => this.props.navigation.navigate('Home') }}
-          centerComponent={{ text: this.props.user.username, style: { color: 'black' } }} />
+          centerComponent={{ text: this.props.screenProps.user.username, style: { color: 'black' } }} />
         <View style={styles = { flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <View style={styles = { padding: 20, flex: 1 }}>
-            <Image source={!this.props.user.profilePicture ? userImg : this.props.user.profilePicture} style={styles = { height: 150, width: 150, borderRadius: 75 }} />
+            <Image source={!this.props.screenProps.user.profilePicture ? userImg : this.props.screenProps.user.profilePicture} style={styles = { height: 150, width: 150, borderRadius: 75 }} />
           </View>
           <Text></Text>
           <View style={styles = { flex: 1, padding: 20, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={styles = { fontSize: 18, fontFamily: 'Arial' }}>{this.props.user.firstName} {this.props.user.lastName} </Text>
+            <Text style={styles = { fontSize: 18, fontFamily: 'Arial' }}>{this.props.screenProps.user.firstName} {this.props.screenProps.user.lastName} </Text>
             <Text></Text>
-            <Text style={styles = { fontSize: 18, fontFamily: 'Arial' }}>{this.props.user.email}</Text>
+            <Text style={styles = { fontSize: 18, fontFamily: 'Arial' }}>{this.props.screenProps.user.email}</Text>
           </View>
           <View style={styles = { flex: 2, padding: 10 }}>
             <TouchableOpacity style={styles = {
