@@ -60,7 +60,7 @@ export default class RecipeList extends Component {
                     return (
                       <View key={ingredient._id}>
                         <Text style={{ fontFamily: "Courier New", fontSize: 18, fontStyle: "italic" }}>
-                          {ingredient.amount} {ingredient.units === ingredient.name.toLowerCase() ? adjective[Math.floor(Math.random() * Math.floor(13))] : ingredient.units} {ingredient.name}
+                          {ingredient.amount} {ingredient.units === ingredient.name.toLowerCase() || ingredient.units === '' ? adjective[Math.floor(Math.random() * Math.floor(13))] : ingredient.units} {ingredient.name}
                         </Text>
                       </View>
                     );
@@ -89,12 +89,6 @@ export default class RecipeList extends Component {
       .patch(
         "https://scranner123.herokuapp.com/api/shopping-lists/5be055751d089848b0d05f9b/5be055751d089848b0d05f9f?update=add"
       )
-      .then((response) => this.updateParentState({ basket: response.body.shoppingList })
-      )
-  }
-
-  updateParentState = (data) => {
-    this.props.updateParentState(data)
   }
 
   componentDidMount() {
@@ -114,7 +108,6 @@ export default class RecipeList extends Component {
   }
 
 }
-
 
 const styles = StyleSheet.create({
   container: {
