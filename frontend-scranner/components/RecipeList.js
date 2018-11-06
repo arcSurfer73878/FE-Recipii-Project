@@ -14,10 +14,10 @@ import Frisbee from "frisbee";
 export default class RecipeList extends Component {
   state = {
     recipes: [],
-    user: "5be055751d089848b0d05f9b",
   };
 
   render() {
+    if (this.state.recipes.length > 0) console.log(this.state.recipes[0].name)
     const adjective = ['exquisite', 'delicious', 'tasty', 'smooth', 'mellow', 'organic', 'made fresh', 'succulent', 'savory', 'divine', 'refined', 'vibrant', 'sublime', 'delicate']
     return (
       <View style={styles.container}>
@@ -34,7 +34,7 @@ export default class RecipeList extends Component {
             })
           }>
           {this.state.recipes.length > 0 &&
-            this.state.recipes.map(recipe => {
+            this.state.recipes.map((recipe, index) => {
               const recipeTitle = recipe.name
                 .split(" ")
                 .map(word => {
@@ -56,7 +56,7 @@ export default class RecipeList extends Component {
                   <Text />
                   <Text style={{ fontSize: 18, fontStyle: 'italic' }}>Les ingrédients du Chef:</Text>
                   <Text />
-                  {recipe.ingredients.map(ingredient => {
+                  {recipe.ingredients.map((ingredient) => {
                     return (
                       <View key={ingredient._id}>
                         <Text style={{ fontFamily: "Courier New", fontSize: 18, fontStyle: "italic" }}>
@@ -66,8 +66,9 @@ export default class RecipeList extends Component {
                     );
                   })}
                   <Icon
+                    key={index}
                     name="add"
-                    onPress={this.addToBasket}
+                    onPress={() => this.addToBasket(index)}
                   />
                 </View>
               );
@@ -78,7 +79,8 @@ export default class RecipeList extends Component {
     );
   }
 
-  addToBasket = () => {
+  addToBasket = (index) => {
+    const recipeId = this.state.recipes[index]._id
     const api = new Frisbee({
       headers: {
         Accept: "application/json",
@@ -87,7 +89,7 @@ export default class RecipeList extends Component {
     });
     api
       .patch(
-        "https://scranner123.herokuapp.com/api/shopping-lists/5be055751d089848b0d05f9b/5be055751d089848b0d05f9f?update=add"
+        `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.user._id}/${recipeId}?update=add`
       )
   }
 
@@ -100,13 +102,12 @@ export default class RecipeList extends Component {
     });
     api
       .get(
-        "https://scranner123.herokuapp.com/api/recipes/5be055751d089848b0d05f9b"
+        `https://scranner123.herokuapp.com/api/recipes/${this.props.user._id}`
       )
       .then(response => {
         this.setState({ recipes: response.body.recipes });
       });
   }
-
 }
 
 const styles = StyleSheet.create({

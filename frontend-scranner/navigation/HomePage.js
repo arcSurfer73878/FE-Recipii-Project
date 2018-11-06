@@ -33,7 +33,7 @@ export default class HomePage extends Component {
           style={styles.welcomeImage}
         >
           <ScrollView>
-            <RecipeList updateParentState={this.addToBasket} />
+            <RecipeList user={this.props.screenProps.user} />
           </ScrollView>
           <Text style={{ marginBottom: '15%' }} />
         </ImageBackground>

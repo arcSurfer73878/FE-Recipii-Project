@@ -26,7 +26,6 @@ export default class App extends Component {
       user: {}
     }
   }
-
   render() {
     return !this.state.login ?
       (<ImageBackground
@@ -39,23 +38,25 @@ export default class App extends Component {
         <Form getUser={this.getUser} />
         <SignupSection />
       </ImageBackground>
-      ) : (<AppNavigator />)
+      ) : (<AppNavigator
+        screenProps={{ user: this.state.user }}
+      />)
   }
 
   getUser = (username) => {
-    const api =  new Frisbee({
+    const api = new Frisbee({
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       }
     });
     api.get(`https://scranner123.herokuapp.com/api/users/${username}`)
-    .then(response => {
-      this.setState({
-        user: response.body.user,
-        login: true,
-      });
-    })
+      .then(response => {
+        this.setState({
+          user: response.body.user,
+          login: true,
+        });
+      })
   }
 
 }
@@ -107,11 +108,10 @@ const BottomNavigator = createBottomTabNavigator({
     })
   },
 })
+
 const AppNavigator = createSwitchNavigator({
   Bottom: BottomNavigator,
-  User: {
-    screen: props => <UserScreen {...props} user={this.state.user} />
-  },
+  User: UserScreen,
   Camera: CameraScreen,
   Post: PostScreen,
   App,

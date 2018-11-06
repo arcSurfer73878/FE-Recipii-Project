@@ -51,11 +51,17 @@ export default class BasketPage extends React.Component {
         </View>
         <ScrollView>
           {shoppingList.map((ingredient, index) => {
+            let item = ingredient.name
+              .split(" ")
+              .map(word => {
+                return word[0].toUpperCase() + word.slice(1);
+              })
+              .join(" ")
             return (
               <View key={ingredient._id}>
                 <CheckBox
                   key={index}
-                  title={ingredient.name}
+                  title={item}
                   checked={this.state.shoppingList[index].isChecked}
                   onPress={() =>
                     this.handlePress(index)
@@ -96,7 +102,7 @@ export default class BasketPage extends React.Component {
     });
     api
       .get(
-        "https://scranner123.herokuapp.com/api/shopping-lists/5be055751d089848b0d05f9b"
+        `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.screenProps.user._id}`
       )
       .then(response => {
         const formattedIngredients = response.body.shoppingList.ingredients.map(ingredient => {
