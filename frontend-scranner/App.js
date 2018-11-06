@@ -51,11 +51,10 @@ export default class App extends Component {
     });
     api.get(`https://scranner123.herokuapp.com/api/users/${username}`)
     .then(response => {
-      console.log(response.body, "response.body")
-      console.log("response.body.user", response.body.user);
-      // this.setState({
-      //   user: response.body.user
-      // });
+      this.setState({
+        user: response.body.user,
+        login: true,
+      });
     })
   }
 

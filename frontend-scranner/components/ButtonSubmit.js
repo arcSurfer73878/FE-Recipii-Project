@@ -28,10 +28,6 @@ export default class ButtonSubmit extends Component {
     this.setState({ isLoading: true });
   }
 
-  handleLogin(e) {
-    e.preventDefault();
-    this.props.login()
-  }
   render() {
     const changeWidth = this.buttonAnimated.interpolate({
       inputRange: [0, 1],
@@ -47,7 +43,7 @@ export default class ButtonSubmit extends Component {
         <Animated.View style={{ width: changeWidth }}>
           <TouchableOpacity
             style={styles.button}
-            onPress={this.handleLogin.bind(this)}
+            onPress={this.props.onClick}
             activeOpacity={1}>
             {this.state.isLoading ? (
               <Text style={styles.text}>Loading</Text>
