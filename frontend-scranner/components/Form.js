@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Dimensions from 'Dimensions';
+import ButtonSubmit from './ButtonSubmit'
 import {
   StyleSheet,
   KeyboardAvoidingView,
-  TouchableOpacity,
+  View,
 } from 'react-native';
 
 import UserInput from './UserInput';
@@ -19,7 +20,7 @@ export default class Form extends Component {
     this.showPassword = this.showPassword.bind(this);
   }
 
-  showPassword() {
+  showPassword = () => {
     this.state.press === false
       ? this.setState({ showPassword: false, press: true })
       : this.setState({ showPassword: true, press: false });
@@ -27,12 +28,14 @@ export default class Form extends Component {
 
   render() {
     return (
+      <View>
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <UserInput
           placeholder="Username"
           autoCapitalize={'none'}
           returnKeyType={'done'}
           autoCorrect={false}
+          getUser={this.props.getUser}
         />
         <UserInput
           secureTextEntry={this.state.showPassword}
@@ -42,8 +45,15 @@ export default class Form extends Component {
           autoCorrect={false}
         />
       </KeyboardAvoidingView>
+      <ButtonSubmit login={this.props.changeView} />
+      </View>
     );
   }
+
+  handleClick = () => {
+
+  }
+
 }
 
 const DEVICE_WIDTH = Dimensions.get('window').width;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Platform, StatusBar, StyleSheet, View, ImageBackground, Button } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { createBottomTabNavigator, createSwitchNavigator, createStackNavigator } from 'react-navigation'
@@ -11,35 +11,22 @@ import UserScreen from "./navigation/UserPage"
 import CameraScreen from './navigation/CameraPage'
 import Form from './components/Form'
 import Logo from './components/Logo'
-import SignupSection from './components/SignupSection'
-import ButtonSubmit from './components/ButtonSubmit'
+import SignupSection from './components/SignupSection';
+import ButtonSubmit from './components/ButtonSubmit';
 import UserPage from './navigation/UserPage';
+import Frisbee from 'frisbee';
 
-export default class App extends React.Component {
+export default class App extends Component {
   state = {
     login: false
   }
   constructor(props) {
     super(props)
     state = {
-      user: {
-        _id: "5bd73ddfbf9a0930d7f77b15",
-        username: "emmajarvis",
-        firstName: "Emma",
-        lastName: "Jarvis",
-        email: "emmajarvis@gmail.com",
-        profilePicture: "",
-        address: {
-          houseNumber: "",
-          street: "",
-          city: "",
-          postcode: "",
-          telephone: "",
-        },
-        __v: 0
-      }
+      user: {}
     }
   }
+
   render() {
     return !this.state.login ?
       (<ImageBackground
@@ -49,17 +36,29 @@ export default class App extends React.Component {
         style={styles = { flex: 1, height: '100%', width: '100%' }}
       >
         <Logo />
-        <Form />
+        <Form getUser={this.getUser} />
         <SignupSection />
-        <ButtonSubmit login={this.changeView.bind(this)} />
       </ImageBackground>
       ) : (<AppNavigator />)
   }
-  changeView() {
-    this.setState({
-      login: true
+
+  getUser = (username) => {
+    const api =  new Frisbee({
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      }
+    });
+    api.get(`https://scranner123.herokuapp.com/api/users/${username}`)
+    .then(response => {
+      console.log(response.body, "response.body")
+      console.log("response.body.user", response.body.user);
+      // this.setState({
+      //   user: response.body.user
+      // });
     })
   }
+
 }
 
 const BottomNavigator = createBottomTabNavigator({
