@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { Camera, Permissions } from "expo";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,10 +8,9 @@ import axios from "axios";
 import Frisbee from "frisbee";
 import * as Progress from 'react-native-progress';
 
-export default class CameraExample extends React.Component {
+export default class CameraExample extends Component {
   state = {
     hasCameraPermission: null,
-    type: Camera.Constants.Type.back,
     isLoading: false,
   };
 
@@ -22,6 +21,7 @@ export default class CameraExample extends React.Component {
 
   render() {
     const { hasCameraPermission } = this.state;
+
     if (hasCameraPermission === null) {
       return <View />;
     } else if (hasCameraPermission === false) {
@@ -63,20 +63,23 @@ export default class CameraExample extends React.Component {
       );
     }
   }
+  
+ setIsLoading = () => {
+   this.setState({isLoading: true})
+  }
 
   takePicture = () => {
     if (this.camera) {
       const options = { base64: true };
-      this.setState({ isLoading: true })
-      console.log(this.state.isLoading)
+      // this.setState({ isLoading: true })
       this.camera.takePictureAsync(options)
-        .then(data => {
-          console.log(this.state.isLoading)
+        .then(data => {``
           this.analyseRecipe(data.base64)
         })
-    }
+      }
   }
 
+  
   extractServings = ingredientList => {
     const regex = /(serv)|(yield)|(portion)/i;
     const servingsIndex = ingredientList.findIndex(textLine => {
@@ -110,15 +113,15 @@ export default class CameraExample extends React.Component {
         console.log("Google Vision Responding");
         const recipeText =
           results.data.responses[0].textAnnotations[0].description;
-        // const ingredientList = recipeText.split("\n")
-        const ingredientList = [
-          "Grandmas Stuffed Zucchini",
-          "yeild: 4 Servings",
-          "Cook Time: 20 mins",
-          "Ingredients",
-          "2 Zucchini",
-          "1 small onion"
-        ];
+        const ingredientList = recipeText.split("\n")
+        // const ingredientList = [
+        //   "Grandmas Stuffed Zucchini",
+        //   "yeild: 4 Servings",
+        //   "Cook Time: 20 mins",
+        //   "Ingredients",
+        //   "2 Zucchini",
+        //   "1 small onion"
+        // ];
         const serves = this.extractServings(ingredientList);
         const ingredients = ingredientList.slice(
           ingredientList.indexOf("Ingredients") + 1
@@ -142,13 +145,13 @@ export default class CameraExample extends React.Component {
     });
     Promise.all(
       ingredients.map(ingredient => {
-        console.log(`Parsing>>>>>${ingredient}`);
         return api.post(`?ingredientList=${ingredient}&servings=${serves}`);
       })
     )
       .then(response => this.addNewRecipe(response, title, serves))
       .catch(err => {
-        console.error("ERROR2:", Object.entries(err));
+        console.error("ERROR2:", err);
+       // Object.entries(err)
       });
   };
 
@@ -160,15 +163,18 @@ export default class CameraExample extends React.Component {
       }
     });
 
-    const ingredientList = ingredients.map(ingredient => {
-      return {
+    const ingredientList = ingredients.reduce((acc, ingredient) => {
+      console.log("adding a new recipe....", ingredient.body)
+      if (ingredient.body.length > 0)
+      acc.push({
         foodType: ingredient.body[0].aisle,
         name: ingredient.body[0].name,
         amount: ingredient.body[0].amount,
         units: ingredient.body[0].unit,
         price: ingredient.body[0].estimatedCost.value
-      };
-    });
+      });
+      return acc;
+    }, []);
 
     const request = {
       name: title,
@@ -180,9 +186,12 @@ export default class CameraExample extends React.Component {
     // TODO: change this to add props
     api
       .post(
-        `https://scranner123.herokuapp.com/api/recipes/5bdc70fed1830c1a584407ac`,
+        `https://scranner123.herokuapp.com/api/recipes/5be055751d089848b0d05f9b`,
         { body: request }
       )
-      .then(response => response);
+      .then(response => {
+        console.log(response)
+       this.props.navigation.navigate("Home")
+      });
   };
 }
