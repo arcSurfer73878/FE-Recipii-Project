@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dimensions from 'Dimensions';
-import { StyleSheet, View, TextInput, Image } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 
 export default class UserInput extends Component {
+
+  state = {
+    text: '',
+  }
+
   render() {
     return (
       <View style={styles.inputWrapper}>
@@ -16,6 +21,7 @@ export default class UserInput extends Component {
           returnKeyType={this.props.returnKeyType}
           placeholderTextColor="white"
           underlineColorAndroid="transparent"
+          onChangeText={text => this.setState({text})}
         />
       </View>
     );
