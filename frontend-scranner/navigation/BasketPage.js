@@ -29,10 +29,13 @@ export default class BasketPage extends React.Component {
           }}
         />
         <View>
-          <Text>
+          <Text style={{ margin: '5%', fontSize: 18, fontFamily: 'Courier' }}>
             {" "}
             You have{" "}
-            {shoppingList.length}
+            {shoppingList.reduce((acc, check) => {
+              if (check.isChecked === false) { acc++ }
+              return acc
+            }, 0)}
             {' '}items left to buy
           </Text>
         </View>
@@ -48,7 +51,7 @@ export default class BasketPage extends React.Component {
                     this.handlePress(index)
                   }
                 />
-                <Text>amount: {ingredient.amount}{' '}{ingredient.amount > 1 && ingredient.units === "tin" && "can" || "" ? ingredient.units + 's' : ingredient.units}</Text>
+                <Text style={{ textAlign: 'right', marginRight: '5%' }}>amount: {ingredient.amount}{' '}{ingredient.amount > 1 && ingredient.units === "tin" && "can" || "" ? ingredient.units + 's' : ingredient.units}</Text>
               </View>
             )
           })}

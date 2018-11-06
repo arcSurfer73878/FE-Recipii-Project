@@ -34,7 +34,10 @@ export default class HomePage extends Component {
         >
           <ScrollView>
             <RecipeList />
+            <RecipeList />
+            <RecipeList />
           </ScrollView>
+          <Text style={{ marginBottom: '15%' }} />
         </ImageBackground>
       </View>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Image, View } from 'react-native';
+import { Button, Image, View, ImageBackground } from 'react-native';
 import { ImagePicker } from 'expo';
 import { Header } from 'react-native-elements'
 
@@ -20,14 +20,17 @@ export default class PostPage extends React.Component {
             centerComponent={{ text: 'Add a Recipe', style: { color: 'black' } }}
             leftComponent={{ icon: 'camera-alt', color: 'black', onPress: () => this.props.navigation.navigate('Camera') }} />
         </View>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <ImageBackground source={require("../assets/badass-chef.jpg")} style={{
+          alignItems: 'center', height: "100%",
+          width: "100%"
+        }}>
           <Button
             title="Pick an image from camera roll"
             onPress={this._pickImage}
           />
           {image &&
             <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-        </View>
+        </ImageBackground>
       </View>
     );
   }
