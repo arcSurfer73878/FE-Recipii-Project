@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Text,
   ImageBackground,
-  View
+  View,
+  TouchableOpacity
 } from "react-native";
 import { Icon } from "react-native-elements";
 import Frisbee from "frisbee";

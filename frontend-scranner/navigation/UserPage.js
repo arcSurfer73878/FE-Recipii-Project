@@ -51,13 +51,15 @@ class UserPage extends Component {
               height: 40,
               width: 200,
               borderRadius: 0,
-            }} onPress={
-              () => this.props.navigation.navigate("App", { login: false })} ><Text style={styles = { color: 'white' }} >Logout</Text></TouchableOpacity>
+            }} onPress={this._handleLog} ><Text style={styles = { color: 'white' }} >Logout</Text></TouchableOpacity>
           </View>
         </View>
       </View>
     </ImageBackground >
     );
+  }
+  _handleLog() {
+    this.props.updateLogin.bind(this)
   }
 }
 

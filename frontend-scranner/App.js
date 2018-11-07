@@ -39,10 +39,14 @@ export default class App extends Component {
         <SignupSection />
       </ImageBackground>
       ) : (<AppNavigator
-        screenProps={{ user: this.state.user }}
+        screenProps={{ user: this.state.user, updateLogin: this.updateLogin }}
       />)
   }
-
+  updateLogin = () => {
+    this.setState({
+      login: false
+    })
+  }
   getUser = (username) => {
     const api = new Frisbee({
       headers: {
