@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, ScrollView, Button, Image } from "react-native";
+import { Text, View, ScrollView, Button, Image, TouchableOpacity } from "react-native";
 import { Header, CheckBox } from "react-native-elements";
 import { NavigationEvents } from 'react-navigation'
 import Frisbee from "frisbee";
@@ -71,6 +71,14 @@ export default class BasketPage extends React.Component {
               </View>
             )
           })}
+          {!this.state.shoppingList.length < 1 &&
+            <View style={{ alignItems: "center", padding: 10 }}>
+              <TouchableOpacity onPress={this.deleteBasket}>
+                <Text style={{ color: "red", fontSize: 18 }} >Delete Basket</Text>
+              </TouchableOpacity>
+            </View>
+          }
+          <Text style={{ marginBottom: '30%' }} />
         </ScrollView>
       </View>
     );
@@ -93,6 +101,23 @@ export default class BasketPage extends React.Component {
     this.getBasket()
   }
 
+  deleteBasket = () => {
+    const api = new Frisbee({
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    });
+    api.del(
+      `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.screenProps.user._id}`
+    )
+      .then(response => {
+        this.setState({
+          shoppingList: response.body.shoppingList.ingredients
+        })
+      });
+  }
+
   getBasket = () => {
     const api = new Frisbee({
       headers: {
@@ -100,10 +125,9 @@ export default class BasketPage extends React.Component {
         "Content-Type": "application/json"
       }
     });
-    api
-      .get(
-        `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.screenProps.user._id}`
-      )
+    api.get(
+      `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.screenProps.user._id}`
+    )
       .then(response => {
         const formattedIngredients = response.body.shoppingList.ingredients.map(ingredient => {
           return { ...ingredient, isChecked: false }

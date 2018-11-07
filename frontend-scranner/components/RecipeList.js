@@ -105,7 +105,7 @@ export default class RecipeList extends Component {
         `https://scranner123.herokuapp.com/api/recipes/${this.props.user._id}`
       )
       .then(response => {
-        this.setState({ recipes: response.body.recipes });
+        this.setState({ recipes: response.body.recipes.reverse() });
       });
   }
 }
