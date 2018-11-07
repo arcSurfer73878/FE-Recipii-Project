@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Text, TextInput, View, Button, Image } from "react-native"
 import { Header, StyleSheet } from 'react-native-elements'
-import { runInThisContext } from "vm";
 
 export default class ConfirmationPage extends Component {
   state = {
@@ -40,17 +39,17 @@ export default class ConfirmationPage extends Component {
           {this.state.ingredients.map((ingredient, index) => {
             return (
               <View>
-                <TextInput value={this.state.ingedients[index].name}/>
-                <TextInput value={this.state.ingedients[index].amount}/>
-                <TextInput value={this.state.ingedients[index].units}/>
+                <TextInput value={this.state.ingredients[index].name} />
+                <TextInput value={this.state.ingredients[index].amount} />
+                <TextInput value={this.state.ingredients[index].units} />
               </View>
             )
           })}
           <Text>Add Ingredient:</Text>
-          <TextInput value={this.state.newIngredient.name}/>
-          <TextInput value={this.state.newIngredient.amount}/>
-          <TextInput value={this.state.newIngredient.units}/>
-          <Button onPress={this.addIngredient}/>
+          <TextInput value={this.state.newIngredient.name} />
+          <TextInput value={this.state.newIngredient.amount} />
+          <TextInput value={this.state.newIngredient.units} />
+          <Button title='Bouton' onPress={this.addIngredient} />
         </View>
       </View>
     )

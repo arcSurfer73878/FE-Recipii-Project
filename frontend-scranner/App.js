@@ -9,7 +9,7 @@ import RecipeScreen from "./navigation/RecipePage"
 import BasketScreen from './navigation/BasketPage'
 import UserScreen from "./navigation/UserPage"
 import CameraScreen from './navigation/CameraPage'
-import ConfirmationScreen from './navigation/ConfirmationPage'
+import ConfirmationPage from './navigation/ConfirmationPage'
 import Form from './components/Form'
 import Logo from './components/Logo'
 import SignupSection from './components/SignupSection';
@@ -44,19 +44,19 @@ export default class App extends Component {
   }
 
   getUser = (username) => {
-    const api =  new Frisbee({
+    const api = new Frisbee({
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       }
     });
     api.get(`https://scranner123.herokuapp.com/api/users/${username}`)
-    .then(response => {
-      this.setState({
-        user: response.body.user,
-        login: true,
-      });
-    })
+      .then(response => {
+        this.setState({
+          user: response.body.user,
+          login: true,
+        });
+      })
   }
 
 }
@@ -114,7 +114,7 @@ const AppNavigator = createSwitchNavigator({
     screen: props => <UserScreen {...props} user={this.state.user} />
   },
   Camera: CameraScreen,
-  Confirm, ConfirmationPage,
+  Confirm: ConfirmationPage,
   Post: PostScreen,
   App,
 })
