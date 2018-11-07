@@ -21,6 +21,10 @@ export default class BasketPage extends React.Component {
   }
   render() {
     const shoppingList = this.state.shoppingList
+    const numberItems = shoppingList.reduce((acc, check) => {
+      if (check.amount > 0 && check.isChecked === false) { acc++ }
+      return acc
+    }, 0)
     return (
       <View>
         <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
@@ -39,15 +43,12 @@ export default class BasketPage extends React.Component {
           }}
         />
         <View style={{ alignItems: "center" }}>
-          {this.state.shoppingList.length < 1
+          {numberItems <= 0
             ? <Text style={{ margin: '5%', fontSize: 18, fontFamily: 'Courier' }}>Your Basket is empty</Text>
             : <Text style={{ margin: '5%', fontSize: 18, fontFamily: 'Courier' }}>
               {" "}
               You have{" "}
-              {shoppingList.reduce((acc, check) => {
-                if (check.isChecked === false) { acc++ }
-                return acc
-              }, 0)}
+              {numberItems}
               {' '}items left to buy
           </Text>}
         </View>
@@ -60,6 +61,7 @@ export default class BasketPage extends React.Component {
               })
               .join(" ")
             return (
+              ingredient.amount !== 0 &&
               <View key={ingredient._id}>
                 <CheckBox
                   key={index}
@@ -73,7 +75,7 @@ export default class BasketPage extends React.Component {
               </View>
             )
           })}
-          {!this.state.shoppingList.length < 1 &&
+          {numberItems !== 0 &&
             <View style={{ alignItems: "center", padding: 10 }}>
               <TouchableOpacity onPress={this.deleteBasket}>
                 <Text style={{ color: "red", fontSize: 18 }} >Delete Basket</Text>
