@@ -41,7 +41,7 @@ export default class RecipeList extends Component {
               paddingTop: 20,
             })
           }>
-          {this.state.recipes.length > 0 &&
+          {this.state.recipes.length > 0 ?
             this.state.recipes.map((recipe, index) => {
               const recipeTitle = recipe.name
                 .split(" ")
@@ -73,14 +73,28 @@ export default class RecipeList extends Component {
                       </View>
                     );
                   })}
-                  <Icon
-                    key={index}
-                    name="add"
-                    onPress={() => this.addToBasket(index)}
-                  />
+                  <View style={{ alignItems: "center", padding: 10 }}>
+                    <TouchableOpacity onPress={() => this.deleteRecipe(index)}>
+                      <Text style={{ color: "red", fontSize: 18 }} >Delete Recipe</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ alignItems: "center", paddingTop: 10 }}>
+                    <TouchableOpacity onPress={() => this.addToBasket(index)}>
+                      <Text style={{ color: "blue", fontSize: 18 }} >Add to Basket</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ alignItems: "center", padding: 10 }}>
+                    <TouchableOpacity onPress={() => this.deleteFromBasket(index)}>
+                      <Text style={{ color: "red", fontSize: 18 }} >Delete from Basket</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               );
-            })}
+            })
+            : <View style={{ alignItems: "center", padding: 10 }}>
+              <Text style={{ color: "black", fontSize: 18 }} >Scan A Recipe to start</Text>
+            </View>
+          }
         </ImageBackground>
 
       </View>
@@ -105,6 +119,38 @@ export default class RecipeList extends Component {
       .patch(
         `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.user._id}/${recipeId}?update=add`
       )
+  }
+
+  deleteFromBasket = (index) => {
+    const recipeId = this.state.recipes[index]._id
+    const api = new Frisbee({
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    });
+    api
+      .patch(
+        `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.user._id}/${recipeId}?update=remove`
+      )
+  }
+
+  deleteRecipe = (index) => {
+    console.log(this.state.recipes[index]._id)
+    const api = new Frisbee({
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    });
+    api
+      .del(
+        `https://scranner123.herokuapp.com/api/recipes/${this.state.recipes[index]._id}`
+      )
+      .then(() => {
+        const filteredRecipes = this.state.recipes.filter(recipe => recipe._id !== this.state.recipes[index]._id)
+        this.setState({ recipes: filteredRecipes })
+      });
   }
 
   componentDidMount() {
