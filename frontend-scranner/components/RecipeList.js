@@ -1,10 +1,9 @@
 import React, { Component } from "react";
+import { NavigationEvents } from 'react-navigation'
+
 import {
-  Alert,
   StyleSheet,
-  TouchableOpacity,
   Text,
-  Animated,
   ImageBackground,
   View
 } from "react-native";
@@ -14,13 +13,22 @@ import Frisbee from "frisbee";
 export default class RecipeList extends Component {
   state = {
     recipes: [],
+    isFocused: false
   };
 
+  onDidFocus = () => {
+    this.setState({ isFocused: true })
+  }
+
+  onDidBlur = () => {
+    this.setState({ isFocused: false })
+  }
+
   render() {
-    if (this.state.recipes.length > 0) console.log(this.state.recipes[0].name)
     const adjective = ['exquisite', 'delicious', 'tasty', 'smooth', 'mellow', 'organic', 'made fresh', 'succulent', 'savory', 'divine', 'refined', 'vibrant', 'sublime', 'delicate']
     return (
       <View style={styles.container}>
+        <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
         <ImageBackground source={require("../assets/paper-texture.jpeg")}
           style={
             (styles = {
@@ -59,7 +67,7 @@ export default class RecipeList extends Component {
                   {recipe.ingredients.map((ingredient) => {
                     return (
                       <View key={ingredient._id}>
-                        <Text style={{ fontFamily: "Courier New", fontSize: 18, fontStyle: "italic" }}>
+                        <Text style={{ fontSize: 18, fontStyle: "italic" }}>
                           {ingredient.amount} {ingredient.units === ingredient.name.toLowerCase() || ingredient.units === '' ? adjective[Math.floor(Math.random() * Math.floor(13))] : ingredient.units} {ingredient.name}
                         </Text>
                       </View>
@@ -79,6 +87,12 @@ export default class RecipeList extends Component {
     );
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.isFocused !== this.state.isFocused) {
+      this.getRecipes()
+    }
+  }
+
   addToBasket = (index) => {
     const recipeId = this.state.recipes[index]._id
     const api = new Frisbee({
@@ -94,6 +108,10 @@ export default class RecipeList extends Component {
   }
 
   componentDidMount() {
+    this.getRecipes()
+  }
+
+  getRecipes = () => {
     const api = new Frisbee({
       headers: {
         Accept: "application/json",
