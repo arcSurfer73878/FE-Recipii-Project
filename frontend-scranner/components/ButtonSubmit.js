@@ -1,3 +1,56 @@
+// import React, { Component } from 'react';
+// import Dimensions from 'Dimensions';
+// import {
+//   StyleSheet,
+//   TouchableOpacity,
+//   Text,
+//   Animated,
+//   View,
+// } from 'react-native';
+
+// export default class ButtonSubmit extends Component {
+
+//   render() {
+//     return (
+//       <View style={styles.container}>
+//         <TouchableOpacity
+//           style={styles.button}
+//           onPress={this.props.onClick}
+//           activeOpacity={1}>
+//           <Text style={styles.text}>LOGIN</Text>
+//         </TouchableOpacity>
+//       </View>
+//     );
+//   }
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     alignItems: 'center',
+//     top: 180
+//   },
+//   button: {
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     backgroundColor: '#e84224',
+//     marginRight: '5%',
+//     marginLeft: '5%',
+
+//     borderRadius: 20,
+//     padding: 10,
+//     width: '90%'
+//   },
+//   text: {
+//     color: 'white',
+//     backgroundColor: 'transparent',
+//   },
+//   image: {
+//     width: 24,
+//     height: 24,
+//   },
+// });
+
 import React, { Component } from 'react';
 import Dimensions from 'Dimensions';
 import {
@@ -63,7 +116,7 @@ export default class ButtonSubmit extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    top: -50,
+    top: 140,
     alignItems: 'center',
     justifyContent: 'flex-start',
   },

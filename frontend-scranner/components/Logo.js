@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, Image } from 'react-native';
 
 import logoImg from '../assets/logo.png';
+import scranner from '../assets/scranner-vector-app.png'
+import scrannertext from '../assets/scranner-smalltext.png'
 
 export default class Logo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={logoImg} style={styles.image} />
-        <Text style={styles.text}>SCRANNER</Text>
+        <Image source={scranner} style={styles.image} />
+        <Image source={scrannertext} style={styles.text} />
       </View>
     );
   }
@@ -17,18 +19,21 @@ export default class Logo extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 3,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   image: {
-    width: 80,
-    height: 80,
+    width: '50%',
+    height: '50%',
+    top: 60
   },
   text: {
-    color: 'white',
-    fontWeight: 'bold',
-    backgroundColor: 'transparent',
-    marginTop: 20,
+    top: 100,
+    width: '100%',
+    height: '20%',
+    padding: 20,
+    marginRight: '20%',
+    marginLeft: '20%',
   },
 });

@@ -26,11 +26,14 @@ export default class App extends Component {
       user: {}
     }
   }
+  // #60256b purple
+  // #37b348 green
+
   render() {
     return !this.state.login ?
       (<ImageBackground
         source={
-          require('./assets/photo-recipe.png')
+          require('./assets/scranner-background.jpg')
         }
         style={styles = { flex: 1, height: '100%', width: '100%' }}
       >
@@ -114,7 +117,6 @@ const AppNavigator = createSwitchNavigator({
   User: UserScreen,
   Camera: CameraScreen,
   Post: PostScreen,
-  App,
 })
 
 const styles = StyleSheet.create({

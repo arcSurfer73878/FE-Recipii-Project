@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Text,
   ImageBackground,
-  View
+  View,
+  TouchableOpacity
 } from "react-native";
 import { Icon } from "react-native-elements";
 import Frisbee from "frisbee";
@@ -29,18 +30,7 @@ export default class RecipeList extends Component {
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
-        <ImageBackground source={require("../assets/paper-texture.jpeg")}
-          style={
-            (styles = {
-              marginBottom: '2%',
-              marginTop: '2%',
-              marginLeft: '5%',
-              marginRight: '5%',
-              alignItems: "center",
-              paddingBottom: 20,
-              paddingTop: 20,
-            })
-          }>
+        <View>
           {this.state.recipes.length > 0 ?
             this.state.recipes.map((recipe, index) => {
               const recipeTitle = recipe.name
@@ -50,10 +40,23 @@ export default class RecipeList extends Component {
                 })
                 .join(" ");
               return (
-                <View
+                <ImageBackground
                   key={recipe._id}
-                  style={{ alignItems: 'center' }}
-                >
+                  source={require("../assets/paper-texture.jpeg")}
+                  style={
+                    (styles = {
+                      alignItems: 'center',
+                      marginBottom: '2%',
+                      marginTop: '2%',
+                      marginLeft: '5%',
+                      marginRight: '5%',
+                      alignItems: "center",
+                      paddingBottom: 20,
+                      paddingTop: 20,
+                    })}
+                ><View style={{ right: 148, top: -13 }}>
+                    <Icon name='clear' onPress={() => this.deleteRecipe(index)} />
+                  </View>
                   <Text style={{ fontSize: 22, fontWeight: 'bold' }}>
                     {recipeTitle}
                   </Text>
@@ -73,7 +76,13 @@ export default class RecipeList extends Component {
                       </View>
                     );
                   })}
-                  <View style={{ alignItems: "center", padding: 10 }}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20 }}>
+                    <Icon name='remove' onPress={() => this.deleteFromBasket(index)} />
+                    <Icon name='shopping-basket' />
+                    <Icon name='add' onPress={() => this.addToBasket(index)} />
+                  </View>
+
+                  {/* <View style={{ alignItems: "center", padding: 10 }}>
                     <TouchableOpacity onPress={() => this.deleteRecipe(index)}>
                       <Text style={{ color: "red", fontSize: 18 }} >Delete Recipe</Text>
                     </TouchableOpacity>
@@ -87,16 +96,15 @@ export default class RecipeList extends Component {
                     <TouchableOpacity onPress={() => this.deleteFromBasket(index)}>
                       <Text style={{ color: "red", fontSize: 18 }} >Delete from Basket</Text>
                     </TouchableOpacity>
-                  </View>
-                </View>
+                  </View> */}
+                </ImageBackground>
               );
             })
             : <View style={{ alignItems: "center", padding: 10 }}>
               <Text style={{ color: "black", fontSize: 18 }} >Scan A Recipe to start</Text>
             </View>
           }
-        </ImageBackground>
-
+        </View>
       </View>
     );
   }
@@ -176,6 +184,6 @@ export default class RecipeList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center"
+    alignItems: "center",
   }
 });
