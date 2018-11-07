@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Text, TextInput, View, Button, Image } from "react-native"
 import { Header, StyleSheet } from 'react-native-elements'
+import { GOOGLEVISIONAPI, SPOONACULARAPI } from "../config/index.js";
+import Frisbee from "frisbee";
 
 export default class ConfirmationPage extends Component {
   state = {
@@ -38,7 +40,7 @@ export default class ConfirmationPage extends Component {
               acc.push(
                 <View key={index}>
                   <TextInput value={ingredient[0].name} />
-                  <TextInput value={ingredient[0].amount.toString()} />
+                  <TextInput value={JSON.stringify(ingredient[0].amount)} />
                   <TextInput value={ingredient[0].unit} />
                 </View>
               )
@@ -57,11 +59,19 @@ export default class ConfirmationPage extends Component {
   }
 
   componentDidMount() {
+    console.log('Mounting...')
     this.setState({
       title: this.props.navigation.getParam('title', ''),
       ingredients: this.props.navigation.getParam('ingredients', []),
       serves: this.props.navigation.getParam('serves', ''),
     })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.ingredients !== this.state.ingredients) {
+      console.log('updating...'),
+        this.parseIngredients(this.state.ingredients, this.state.servings, this.state.title)
+    }
   }
 
   updateText = (text, input) => {
@@ -73,11 +83,39 @@ export default class ConfirmationPage extends Component {
   addIngredient = () => {
     const newIngredient = [{ name: this.state.newName, amount: this.state.newAmount }]
     const newIngredients = [...this.state.ingredients, newIngredient]
-    console.log(newIngredients)
     this.setState({
       ingredients: newIngredients
     });
   }
+
+  parseIngredients = (ingredients, serves, title) => {
+    const api = new Frisbee({
+      baseURI:
+        "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/parseIngredients",
+      headers: {
+        "X-Mashape-Key": SPOONACULARAPI,
+        "X-Mashape-Host": "spoonacular-recipe-food-nutrition-v1.p.mashape.com",
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    });
+    Promise.all(
+      ingredients.map(ingredient => {
+        return api.post(`?ingredientList=${ingredient}&servings=${serves}`);
+      })
+    )
+      .then(response => {
+        // console.log(response)
+        const ingredients = response.map(ingredient => {
+          console.log(ingredient.body, 'spoonacular response')
+          return ingredient.body
+        })
+        // this.setState({ ingredients })
+      })
+      .catch(err => {
+        console.error("ERROR2:", err);
+        // Object.entries(err)
+      });
+  };
 
   addNewRecipe = (ingredients, title, servings) => {
     const api = new Frisbee({
@@ -104,15 +142,12 @@ export default class ConfirmationPage extends Component {
       servings,
       ingredients: ingredientList
     };
-
-    console.log(request, "<<<<<<<<<<<<<<<<");
     api
       .post(
         `https://scranner123.herokuapp.com/api/recipes/5be2fdbc6333b741ca036886`,
         { body: request }
       )
       .then(response => {
-        console.log(response)
         this.props.navigation.navigate("Home")
       });
   };

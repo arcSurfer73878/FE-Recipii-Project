@@ -112,7 +112,8 @@ export default class CameraExample extends Component {
         const servings = this.extractServings(textArr);
         const ingredients = this.getIngredients(textArr);
         const title = textArr[0];
-        this.parseIngredients(ingredients, servings, title)
+        this.props.navigation.navigate("Confirm", { ingredients, title, servings })
+        // this.parseIngredients(ingredients, servings, title)
       })
       .catch(err => {
         console.error("ERROR:", err);
@@ -140,34 +141,33 @@ export default class CameraExample extends Component {
     return ingredientList;
   }
 
-  parseIngredients = (ingredients, serves, title) => {
-    const api = new Frisbee({
-      baseURI:
-        "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/parseIngredients",
-      headers: {
-        "X-Mashape-Key": SPOONACULARAPI,
-        "X-Mashape-Host": "spoonacular-recipe-food-nutrition-v1.p.mashape.com",
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    });
-    Promise.all(
-      ingredients.map(ingredient => {
-        return api.post(`?ingredientList=${ingredient}&servings=${serves}`);
-      })
-    )
-      .then(response => {
-        // console.log(response)
-        const ingredients = response.map(ingredient => {
-          console.log(ingredient.body, 'spoonacular response')
-          return ingredient.body
-        });
-        this.props.navigation.navigate("Confirm", { ingredients, title, serves })
-      })
-      .catch(err => {
-        console.error("ERROR2:", err);
-        // Object.entries(err)
-      });
-  };
+  // parseIngredients = (ingredients, serves, title) => {
+  //   const api = new Frisbee({
+  //     baseURI:
+  //       "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/parseIngredients",
+  //     headers: {
+  //       "X-Mashape-Key": SPOONACULARAPI,
+  //       "X-Mashape-Host": "spoonacular-recipe-food-nutrition-v1.p.mashape.com",
+  //       "Content-Type": "application/x-www-form-urlencoded"
+  //     }
+  //   });
+  //   Promise.all(
+  //     ingredients.map(ingredient => {
+  //       return api.post(`?ingredientList=${ingredient}&servings=${serves}`);
+  //     })
+  //   )
+  //     .then(response => {
+  //       // console.log(response)
+  //       const ingredients = response.map(ingredient => {
+  //         console.log(ingredient.body, 'spoonacular response')
+  //         return ingredient.body
+  //       });
+  //     })
+  //     .catch(err => {
+  //       console.error("ERROR2:", err);
+  //       // Object.entries(err)
+  //     });
+  // };
 
   // addNewRecipe = (ingredients, title, servings) => {
   //   const api = new Frisbee({
