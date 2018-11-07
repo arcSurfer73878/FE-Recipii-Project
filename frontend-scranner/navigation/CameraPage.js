@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { Camera, Permissions } from "expo";
 import { Ionicons } from "@expo/vector-icons";
@@ -63,9 +63,9 @@ export default class CameraExample extends Component {
       );
     }
   }
-  
- setIsLoading = () => {
-   this.setState({isLoading: true})
+
+  setIsLoading = () => {
+    this.setState({ isLoading: true })
   }
 
   takePicture = () => {
@@ -73,13 +73,14 @@ export default class CameraExample extends Component {
       const options = { base64: true };
       // this.setState({ isLoading: true })
       this.camera.takePictureAsync(options)
-        .then(data => {``
+        .then(data => {
+          ``
           this.analyseRecipe(data.base64)
         })
-      }
+    }
   }
 
-  
+
   extractServings = ingredientList => {
     const regex = /(serv)|(yield)|(portion)/i;
     const servingsIndex = ingredientList.findIndex(textLine => {
@@ -151,7 +152,7 @@ export default class CameraExample extends Component {
       .then(response => this.addNewRecipe(response, title, serves))
       .catch(err => {
         console.error("ERROR2:", err);
-       // Object.entries(err)
+        // Object.entries(err)
       });
   };
 
@@ -164,15 +165,15 @@ export default class CameraExample extends Component {
     });
 
     const ingredientList = ingredients.reduce((acc, ingredient) => {
-      console.log("adding a new recipe....", ingredient.body)
+      // console.log("adding a new recipe....", ingredient.body)
       if (ingredient.body.length > 0)
-      acc.push({
-        foodType: ingredient.body[0].aisle,
-        name: ingredient.body[0].name,
-        amount: ingredient.body[0].amount,
-        units: ingredient.body[0].unit,
-        price: ingredient.body[0].estimatedCost.value
-      });
+        acc.push({
+          foodType: ingredient.body[0].aisle,
+          name: ingredient.body[0].name,
+          amount: ingredient.body[0].amount,
+          units: ingredient.body[0].unit,
+          price: ingredient.body[0].estimatedCost.value
+        });
       return acc;
     }, []);
 
@@ -182,7 +183,7 @@ export default class CameraExample extends Component {
       ingredients: ingredientList
     };
 
-    console.log(request, "<<<<<<<<<<<<<<<<");
+    // console.log(request, "<<<<<<<<<<<<<<<<");
     // TODO: change this to add props
     api
       .post(
@@ -190,8 +191,8 @@ export default class CameraExample extends Component {
         { body: request }
       )
       .then(response => {
-        console.log(response)
-       this.props.navigation.navigate("Home")
+        // console.log(response)
+        this.props.navigation.navigate("Home")
       });
   };
 }

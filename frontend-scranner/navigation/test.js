@@ -11,8 +11,10 @@ export default class BasketPage extends React.Component {
   state = {
     shoppingList: [],
     isFocused: false,
+    recipeList: [],
   };
   onDidFocus = () => {
+    this.getBasket()
     this.setState({ isFocused: true })
   }
   onDidBlur = () => {
@@ -20,7 +22,9 @@ export default class BasketPage extends React.Component {
     )
   }
   render() {
+    const isBasketEmpty = this.state.shoppingList.reduce((acc, ingredient) => { return acc + ingredient.amount }, 0)
     const shoppingList = this.state.shoppingList
+    console.log(this.state.recipeList.length)
     return (
       <View>
         <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
@@ -39,49 +43,53 @@ export default class BasketPage extends React.Component {
           }}
         />
         <View style={{ alignItems: "center" }}>
-          {this.state.shoppingList.length < 1
+          {this.state.recipeList.length < 1
             ? <Text style={{ margin: '5%', fontSize: 18, fontFamily: 'Courier' }}>Your Basket is empty</Text>
-            : <Text style={{ margin: '5%', fontSize: 18, fontFamily: 'Courier' }}>
-              {" "}
-              You have{" "}
-              {shoppingList.reduce((acc, check) => {
-                if (check.isChecked === false) { acc++ }
-                return acc
-              }, 0)}
-              {' '}items left to buy
-          </Text>}
-        </View>
-        <ScrollView>
-          {shoppingList.map((ingredient, index) => {
-            let item = ingredient.name
-              .split(" ")
-              .map(word => {
-                return word[0].toUpperCase() + word.slice(1);
-              })
-              .join(" ")
-            return (
-              <View key={ingredient._id}>
-                <CheckBox
-                  key={index}
-                  title={item}
-                  checked={this.state.shoppingList[index].isChecked}
-                  onPress={() =>
-                    this.handlePress(index)
-                  }
-                />
-                <Text style={{ textAlign: 'right', marginRight: '5%' }}>amount: {ingredient.amount}{' '}{ingredient.amount > 1 && ingredient.units === "tin" && "can" || "" ? ingredient.units + 's' : ingredient.units}</Text>
-              </View>
-            )
-          })}
-          {!this.state.shoppingList.length < 1 &&
-            <View style={{ alignItems: "center", padding: 10 }}>
-              <TouchableOpacity onPress={this.deleteBasket}>
-                <Text style={{ color: "red", fontSize: 18 }} >Delete Basket</Text>
-              </TouchableOpacity>
+            :
+            <View>
+              <Text style={{ margin: '5%', fontSize: 18, fontFamily: 'Courier' }}>
+                {" "}
+                You have{" "}
+                {shoppingList.reduce((acc, check) => {
+                  if (check.isChecked === false) { acc++ }
+                  return acc
+                }, 0)}
+                {' '}items left to buy
+             </Text>
+              <ScrollView>
+                {shoppingList.map((ingredient, index) => {
+                  let item = ingredient.name
+                    .split(" ")
+                    .map(word => {
+                      return word[0].toUpperCase() + word.slice(1);
+                    })
+                    .join(" ")
+                  return (
+                    <View key={ingredient._id}>
+                      <CheckBox
+                        key={index}
+                        title={item}
+                        checked={this.state.shoppingList[index].isChecked}
+                        onPress={() =>
+                          this.handlePress(index)
+                        }
+                      />
+                      <Text style={{ textAlign: 'right', marginRight: '5%' }}>amount: {ingredient.amount}{' '}{ingredient.amount > 1 && ingredient.units === "tin" && "can" || "" ? ingredient.units + 's' : ingredient.units}</Text>
+                    </View>
+                  )
+                })}
+                {!this.state.shoppingList.length < 1 &&
+                  <View style={{ alignItems: "center", padding: 10 }}>
+                    <TouchableOpacity onPress={this.deleteBasket}>
+                      <Text style={{ color: "red", fontSize: 18 }} >Delete Basket</Text>
+                    </TouchableOpacity>
+                  </View>
+                }
+                <Text style={{ marginBottom: '30%' }} />
+              </ScrollView>
             </View>
           }
-          <Text style={{ marginBottom: '30%' }} />
-        </ScrollView>
+        </View>
       </View>
     );
   }
@@ -95,9 +103,9 @@ export default class BasketPage extends React.Component {
     })
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.isFocused !== this.state.isFocused) this.getBasket()
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.isFocused !== this.state.isFocused) this.getBasket()
+  // }
 
   componentDidMount() {
     this.getBasket()
@@ -135,7 +143,8 @@ export default class BasketPage extends React.Component {
           return { ...ingredient, isChecked: false }
         })
         this.setState({
-          shoppingList: formattedIngredients
+          shoppingList: formattedIngredients,
+          recipeList: response.body.shoppingList.recipes
         })
       });
   }
