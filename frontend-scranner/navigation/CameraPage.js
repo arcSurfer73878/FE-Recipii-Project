@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { Camera, Permissions } from "expo";
 import { Ionicons } from "@expo/vector-icons";
@@ -63,33 +63,28 @@ export default class CameraExample extends Component {
       );
     }
   }
-  
- setIsLoading = () => {
-   this.setState({isLoading: true})
+
+  setIsLoading = () => {
+    this.setState({ isLoading: true })
   }
 
   takePicture = () => {
     if (this.camera) {
       const options = { base64: true };
       // this.setState({ isLoading: true })
+      console.log('taking photo....');
       this.camera.takePictureAsync(options)
-        .then(data => {``
+        .then(data => {
           this.analyseRecipe(data.base64)
         })
-      }
+        .catch(err => console.log('CAMERA ERROR: ', err));
+    }
   }
 
-  
-  extractServings = ingredientList => {
-    const regex = /(serv)|(yield)|(portion)/i;
-    const servingsIndex = ingredientList.findIndex(textLine => {
-      return regex.test(textLine);
-    });
-    const servings = ingredientList[servingsIndex].match(/\d+/);
-    return servings[0];
-  };
+
 
   analyseRecipe = fileName => {
+    console.log('preparing request to google vision....')
     const visionRequest = {
       requests: [
         {
@@ -114,23 +109,20 @@ export default class CameraExample extends Component {
         const recipeText =
           results.data.responses[0].textAnnotations[0].description;
         const ingredientList = recipeText.split("\n")
-        // const ingredientList = [
-        //   "Grandmas Stuffed Zucchini",
-        //   "yeild: 4 Servings",
-        //   "Cook Time: 20 mins",
-        //   "Ingredients",
-        //   "2 Zucchini",
-        //   "1 small onion"
-        // ];
-        const serves = this.extractServings(ingredientList);
-        const ingredients = ingredientList.slice(
-          ingredientList.indexOf("Ingredients") + 1
-        );
-        this.parseIngredients(ingredients, serves, ingredientList[0]);
+        this.props.navigation.navigate("Confirm", { ingredientList })
       })
       .catch(err => {
         console.error("ERROR:", err);
       });
+  };
+
+  extractServings = ingredientList => {
+    const regex = /(serv)|(yield)|(portion)/i;
+    const servingsIndex = ingredientList.findIndex(textLine => {
+      return regex.test(textLine);
+    });
+    const servings = ingredientList[servingsIndex].match(/\d+/);
+    return servings[0];
   };
 
   parseIngredients = (ingredients, serves, title) => {
@@ -148,50 +140,54 @@ export default class CameraExample extends Component {
         return api.post(`?ingredientList=${ingredient}&servings=${serves}`);
       })
     )
-      .then(response => this.addNewRecipe(response, title, serves))
-      .catch(err => {
-        console.error("ERROR2:", err);
-       // Object.entries(err)
-      });
-  };
-
-  addNewRecipe = (ingredients, title, servings) => {
-    const api = new Frisbee({
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      }
-    });
-
-    const ingredientList = ingredients.reduce((acc, ingredient) => {
-      console.log("adding a new recipe....", ingredient.body)
-      if (ingredient.body.length > 0)
-      acc.push({
-        foodType: ingredient.body[0].aisle,
-        name: ingredient.body[0].name,
-        amount: ingredient.body[0].amount,
-        units: ingredient.body[0].unit,
-        price: ingredient.body[0].estimatedCost.value
-      });
-      return acc;
-    }, []);
-
-    const request = {
-      name: title,
-      servings,
-      ingredients: ingredientList
-    };
-
-    console.log(request, "<<<<<<<<<<<<<<<<");
-    // TODO: change this to add props
-    api
-      .post(
-        `https://scranner123.herokuapp.com/api/recipes/5be055751d089848b0d05f9b`,
-        { body: request }
-      )
       .then(response => {
         console.log(response)
-       this.props.navigation.navigate("Home")
+        this.addNewRecipe(response, title, serves)
+      })
+      .catch(err => {
+        console.error("ERROR2:", err);
+        // Object.entries(err)
       });
   };
+
+  // addNewRecipe = (ingredients, title, servings) => {
+  //   const api = new Frisbee({
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json"
+  //     }
+  //   });
+
+  // const ingredientList = ingredients.reduce((acc, ingredient) => {
+  //   console.log("adding a new recipe....", ingredient.body)
+  //   if (ingredient.body.length > 0)
+  //   acc.push({
+  //     foodType: ingredient.body[0].aisle,
+  //     name: ingredient.body[0].name,
+  //     amount: ingredient.body[0].amount,
+  //     units: ingredient.body[0].unit,
+  //     price: ingredient.body[0].estimatedCost.value
+  //   });
+  //   return acc;
+  // }, []);
+
+  // const request = {
+  //   name: title,
+  //   servings,
+  //   ingredients: ingredientList
+  // };
+
+  //     console.log(request, "<<<<<<<<<<<<<<<<");
+  //     // TODO: change this to add props
+  //     api
+  //       .post(
+  //         `https://scranner123.herokuapp.com/api/recipes/5be055751d089848b0d05f9b`,
+  //         { body: request }
+  //       )
+  //       .then(response => {
+  //         console.log(response)
+  //        this.props.navigation.navigate("Home")
+  //       });
+  //   };
+  // }
 }
