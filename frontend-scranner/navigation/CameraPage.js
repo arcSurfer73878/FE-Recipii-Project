@@ -106,10 +106,12 @@ export default class CameraExample extends Component {
       )
       .then(results => {
         console.log("Google Vision Responding");
-        const recipeText =
+        const imageText =
           results.data.responses[0].textAnnotations[0].description;
-        const ingredientList = recipeText.split("\n")
-        this.props.navigation.navigate("Confirm", { ingredientList })
+        const textArr = imageText.split("\n")
+        const servings = this.extractServings(textArr);
+        const ingredientList = this.getIngredients(textArr);
+        this.parseIngredients(ingredientList, servings)
       })
       .catch(err => {
         console.error("ERROR:", err);
@@ -121,11 +123,21 @@ export default class CameraExample extends Component {
     const servingsIndex = ingredientList.findIndex(textLine => {
       return regex.test(textLine);
     });
-    const servings = ingredientList[servingsIndex].match(/\d+/);
+    const servings = servingsIndex === -1
+      ? [0]
+      : ingredientList[servingsIndex].match(/\d+/);
     return servings[0];
   };
 
-  parseIngredients = (ingredients, serves, title) => {
+  getIngredients = (ingredients) => {
+    const ingredientIndex = ingredients.indexOf("Ingredients")
+    const ingredientList = ingredientIndex === -1
+    ? ingredients
+    : ingredients.slice(ingredientIndex + 1);
+    return ingredientList;
+  }
+
+  parseIngredients = (ingredients, serves) => {
     const api = new Frisbee({
       baseURI:
         "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/parseIngredients",
@@ -141,8 +153,8 @@ export default class CameraExample extends Component {
       })
     )
       .then(response => {
-        console.log(response)
-        this.addNewRecipe(response, title, serves)
+        const ingredients = response.data;
+        this.props.navigation.navigate("Confirm", { ingredients, title, serves })
       })
       .catch(err => {
         console.error("ERROR2:", err);
@@ -170,12 +182,6 @@ export default class CameraExample extends Component {
   //   });
   //   return acc;
   // }, []);
-
-  // const request = {
-  //   name: title,
-  //   servings,
-  //   ingredients: ingredientList
-  // };
 
   //     console.log(request, "<<<<<<<<<<<<<<<<");
   //     // TODO: change this to add props

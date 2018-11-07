@@ -16,7 +16,6 @@ export default class ConfirmationPage extends Component {
 
 
   render() {
-    console.log(this.state)
     return (
       <View>
         <Header
@@ -34,56 +33,43 @@ export default class ConfirmationPage extends Component {
           }}
         />
         <View>
-          <TextInput value={this.state.title} />
-          <TextInput value={this.state.servings} />
-          {this.state.ingredients.map((ingredient, index) => {
-            return (
-              <View>
-                <TextInput value={this.state.ingredients[index].name} />
-                <TextInput value={this.state.ingredients[index].amount} />
-                <TextInput value={this.state.ingredients[index].units} />
-              </View>
-            )
-          })}
+          <TextInput value={this.state.title} onChangeText={(text) => this.updateText(text, title)} />
+          <TextInput value={this.state.servings} onChangeText={(text) => this.updateText(text, servings)} />
+          {this.state.ingredients.reduce((acc, ingredient) => {
+            if (ingredient.body.length > 0) {
+              acc.push(
+                <View>
+                  <TextInput value={ingredient.name} />
+                  <TextInput value={ingredient.amount} />
+                  <TextInput value={ingredient.units} />
+                </View>
+              )
+            }
+            return acc
+          }, [])}
           <Text>Add Ingredient:</Text>
-          <TextInput value={this.state.newIngredient.name} />
-          <TextInput value={this.state.newIngredient.amount} />
-          <TextInput value={this.state.newIngredient.units} />
-          <Button title='Bouton' onPress={this.addIngredient} />
+          <TextInput value={this.state.newIngredient.name} onChangeText={(text) => this.updateText(text, { newIngredient: name })} />
+          <TextInput value={this.state.newIngredient.amount} onChangeText={(text) => this.updateText(text, { newIngredient: amount })} />
+          <TextInput value={this.state.newIngredient.units} onChangeText={(text) => this.updateText(text, { newIngredient: units })} />
+          <Button title='Add' onPress={this.addIngredient} />
         </View>
       </View>
     )
   }
 
   componentDidMount() {
-    const ingredients = this.props.navigation.getParam('ingredientList', []);
     this.setState({
-      title: ingredients[0],
-      servings: this.extractServings(ingredients),
-      ingredients: this.getIngredients(ingredients)
+      title: this.props.navigation.getParam('title', ''),
+      servings: this.props.navigation.getParam('ingredients', []),
+      ingredients: this.props.navigation.getParam('serves', ''),
     })
   }
 
-  onChangeText = (text, input) => {
+  updateText = (text, input) => {
     this.setState({
       [input]: text
     });
   }
-
-  getIngredients = (ingredients) => {
-    return ingredients.slice(ingredients.indexOf("Ingredients") + 1);
-  }
-
-  extractServings = ingredientList => {
-    const regex = /(serv)|(yield)|(portion)/i;
-    const servingsIndex = ingredientList.findIndex(textLine => {
-      return regex.test(textLine);
-    });
-    const servings = servingsIndex === -1
-      ? [0]
-      : ingredientList[servingsIndex].match(/\d+/);
-    return servings[0];
-  };
 
   addIngredient = () => {
     const newIngredients = [...this.state.ingredients, this.state.newIngredient]
@@ -91,6 +77,4 @@ export default class ConfirmationPage extends Component {
       ingredients: newIngredients
     });
   }
-
-
 };
