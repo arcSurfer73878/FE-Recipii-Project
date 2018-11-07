@@ -9,6 +9,7 @@ import RecipeScreen from "./navigation/RecipePage"
 import BasketScreen from './navigation/BasketPage'
 import UserScreen from "./navigation/UserPage"
 import CameraScreen from './navigation/CameraPage'
+import ConfirmationScreen from './navigation/ConfirmationPage'
 import Form from './components/Form'
 import Logo from './components/Logo'
 import SignupSection from './components/SignupSection';
@@ -113,6 +114,7 @@ const AppNavigator = createSwitchNavigator({
     screen: props => <UserScreen {...props} user={this.state.user} />
   },
   Camera: CameraScreen,
+  Confirm, ConfirmationPage,
   Post: PostScreen,
   App,
 })

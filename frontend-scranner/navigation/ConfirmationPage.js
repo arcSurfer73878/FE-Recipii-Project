@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import { Text, TextInput, View, Button, Image } from "react-native"
 import { Header, StyleSheet } from 'react-native-elements'
+import { runInThisContext } from "vm";
 
 export default class ConfirmationPage extends Component {
   state = {
     title: '',
     servings: '',
     ingredients: [],
+    newIngredient: {
+      name: 'ingredient name',
+      amount: 'amount/quantity',
+      units: 'units',
+    }
   };
 
 
@@ -29,18 +35,22 @@ export default class ConfirmationPage extends Component {
           }}
         />
         <View>
-          <TextInput value={this.state.title}>
-            {/* title */}
-          </TextInput>
-          <TextInput value={this.state.servings}>
-            {/* servings */}
-          </TextInput>
+          <TextInput value={this.state.title} />
+          <TextInput value={this.state.servings} />
           {this.state.ingredients.map((ingredient, index) => {
-
-          <TextInput value={this.state.ingedients}>
-            {/* ingredients */}
-          </TextInput>
+            return (
+              <View>
+                <TextInput value={this.state.ingedients[index].name}/>
+                <TextInput value={this.state.ingedients[index].amount}/>
+                <TextInput value={this.state.ingedients[index].units}/>
+              </View>
+            )
           })}
+          <Text>Add Ingredient:</Text>
+          <TextInput value={this.state.newIngredient.name}/>
+          <TextInput value={this.state.newIngredient.amount}/>
+          <TextInput value={this.state.newIngredient.units}/>
+          <Button onPress={this.addIngredient}/>
         </View>
       </View>
     )
@@ -75,4 +85,13 @@ export default class ConfirmationPage extends Component {
       : ingredientList[servingsIndex].match(/\d+/);
     return servings[0];
   };
+
+  addIngredient = () => {
+    const newIngredients = [...this.state.ingredients, this.state.newIngredient]
+    this.setState({
+      ingredients: newIngredients
+    });
+  }
+
+
 };
