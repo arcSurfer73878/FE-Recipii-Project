@@ -7,11 +7,9 @@ export default class ConfirmationPage extends Component {
     title: '',
     servings: '',
     ingredients: [],
-    newIngredient: {
-      name: 'ingredient name',
-      amount: 'amount/quantity',
-      units: 'units',
-    }
+    newName: 'ingredient name',
+    newAmount: 'amount/quantity',
+    newAnits: 'units',
   };
 
 
@@ -35,25 +33,25 @@ export default class ConfirmationPage extends Component {
         <View>
           <TextInput value={this.state.title} onChangeText={(text) => this.updateText(text, title)} />
           <TextInput value={this.state.servings} onChangeText={(text) => this.updateText(text, servings)} />
-          {this.state.ingredients.reduce((acc, ingredient) => {
+          {this.state.ingredients.reduce((acc, ingredient, index) => {
             if (ingredient.length > 0) {
               acc.push(
-                <View>
-                  <TextInput value={ingredient.name} />
-                  <TextInput value={ingredient.amount} />
-                  <TextInput value={ingredient.units} />
+                <View key={index}>
+                  <TextInput value={ingredient[0].name} />
+                  <TextInput value={ingredient[0].amount.toString()} />
+                  <TextInput value={ingredient[0].unit} />
                 </View>
               )
             }
             return acc
           }, [])}
           <Text>Add Ingredient:</Text>
-          <TextInput value={this.state.newIngredient.name} onChangeText={(text) => this.updateText(text, { newIngredient: name })} />
-          <TextInput value={this.state.newIngredient.amount} onChangeText={(text) => this.updateText(text, { newIngredient: amount })} />
-          <TextInput value={this.state.newIngredient.units} onChangeText={(text) => this.updateText(text, { newIngredient: units })} />
+          <TextInput value={this.state.newName} onChangeText={(text) => this.updateText(text, 'newName')} />
+          <TextInput value={this.state.newAmount} onChangeText={(text) => this.updateText(text, 'newAmount')} />
+          <TextInput value={this.state.newUnits} onChangeText={(text) => this.updateText(text, 'newUnits')} />
           <Button title='Add Ingredient' onPress={this.addIngredient} />
         </View>
-        <Button title='Confirm Recipe' onPress={this.addRecipe} />
+        <Button title='Confirm Recipe' onPress={this.addNewRecipe} />
       </View>
     )
   }
@@ -73,7 +71,9 @@ export default class ConfirmationPage extends Component {
   }
 
   addIngredient = () => {
-    const newIngredients = [...this.state.ingredients, this.state.newIngredient]
+    const newIngredient = [{ name: this.state.newName, amount: this.state.newAmount }]
+    const newIngredients = [...this.state.ingredients, newIngredient]
+    console.log(newIngredients)
     this.setState({
       ingredients: newIngredients
     });
@@ -117,5 +117,3 @@ export default class ConfirmationPage extends Component {
       });
   };
 }
-
-};

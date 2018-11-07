@@ -141,7 +141,6 @@ export default class CameraExample extends Component {
   }
 
   parseIngredients = (ingredients, serves, title) => {
-    console.log(ingredients)
     const api = new Frisbee({
       baseURI:
         "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/parseIngredients",
@@ -157,7 +156,9 @@ export default class CameraExample extends Component {
       })
     )
       .then(response => {
+        // console.log(response)
         const ingredients = response.map(ingredient => {
+          console.log(ingredient.body, 'spoonacular response')
           return ingredient.body
         });
         this.props.navigation.navigate("Confirm", { ingredients, title, serves })
