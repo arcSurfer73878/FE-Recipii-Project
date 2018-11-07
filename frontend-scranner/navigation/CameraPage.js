@@ -110,8 +110,9 @@ export default class CameraExample extends Component {
           results.data.responses[0].textAnnotations[0].description;
         const textArr = imageText.split("\n")
         const servings = this.extractServings(textArr);
-        const ingredientList = this.getIngredients(textArr);
-        this.parseIngredients(ingredientList, servings)
+        const ingredients = this.getIngredients(textArr);
+        const title = textArr[0];
+        this.parseIngredients(ingredients, servings, title)
       })
       .catch(err => {
         console.error("ERROR:", err);
@@ -131,13 +132,16 @@ export default class CameraExample extends Component {
 
   getIngredients = (ingredients) => {
     const ingredientIndex = ingredients.indexOf("Ingredients")
-    const ingredientList = ingredientIndex === -1
-    ? ingredients
-    : ingredients.slice(ingredientIndex + 1);
+    console.log(ingredientIndex, "<<<<<< ingredientIndex")
+    const ingredientList = ingredientIndex > -1
+      ? ingredients.slice(ingredientIndex + 1)
+      : ingredients;
+    console.log(ingredientList)
     return ingredientList;
   }
 
-  parseIngredients = (ingredients, serves) => {
+  parseIngredients = (ingredients, serves, title) => {
+    console.log(ingredients)
     const api = new Frisbee({
       baseURI:
         "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/parseIngredients",
@@ -153,7 +157,9 @@ export default class CameraExample extends Component {
       })
     )
       .then(response => {
-        const ingredients = response.data;
+        const ingredients = response.map(ingredient => {
+          return ingredient.body
+        });
         this.props.navigation.navigate("Confirm", { ingredients, title, serves })
       })
       .catch(err => {

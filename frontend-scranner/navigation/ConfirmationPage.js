@@ -32,11 +32,12 @@ export default class ConfirmationPage extends Component {
             onPress: () => this.props.navigation.navigate("User")
           }}
         />
+        {console.log(this.state.ingredients)}
         <View>
           <TextInput value={this.state.title} onChangeText={(text) => this.updateText(text, title)} />
           <TextInput value={this.state.servings} onChangeText={(text) => this.updateText(text, servings)} />
           {this.state.ingredients.reduce((acc, ingredient) => {
-            if (ingredient.body.length > 0) {
+            if (ingredient.length > 0) {
               acc.push(
                 <View>
                   <TextInput value={ingredient.name} />
@@ -60,8 +61,8 @@ export default class ConfirmationPage extends Component {
   componentDidMount() {
     this.setState({
       title: this.props.navigation.getParam('title', ''),
-      servings: this.props.navigation.getParam('ingredients', []),
-      ingredients: this.props.navigation.getParam('serves', ''),
+      ingredients: this.props.navigation.getParam('ingredients', []),
+      serves: this.props.navigation.getParam('serves', ''),
     })
   }
 
