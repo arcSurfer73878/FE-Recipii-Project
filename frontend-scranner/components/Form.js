@@ -12,7 +12,7 @@ export default class Form extends Component {
     this.state = {
       showPassword: true,
       press: false,
-      username: '',
+      username: 'emmajarvis',
     };
     this.showPassword = this.showPassword.bind(this);
   }
