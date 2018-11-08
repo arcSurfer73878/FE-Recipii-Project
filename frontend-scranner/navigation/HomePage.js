@@ -15,15 +15,17 @@ export default class HomePage extends Component {
     return (
       <View style={styles.container}>
         <Header
-          outerContainerStyles={{ backgroundColor: "#ffffff" }}
+          outerContainerStyles={{ backgroundColor: "#ffffff", height: 75, }}
           leftComponent={{
             icon: "camera-alt",
+            size: 30,
             color: "black",
             onPress: () => this.props.navigation.navigate("Camera")
           }}
-          centerComponent={{ text: "SCRANNER", style: { color: "black" } }}
+          centerComponent={(<image resizeMode="cover" style={{ width: 150, height: 40, resizeMode: "contain", alignSelf: "center" }} source={require("../assets/scranner-logo-text-small.png")} />)}
           rightComponent={{
-            icon: "face",
+            icon: "person",
+            size: 30,
             color: "black",
             onPress: () => this.props.navigation.navigate("User")
           }}

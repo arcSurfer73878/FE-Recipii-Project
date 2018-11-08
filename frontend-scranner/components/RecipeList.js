@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { NavigationEvents } from 'react-navigation'
 
 import {
+  TouchableOpacity,
   StyleSheet,
   Text,
   ImageBackground,
