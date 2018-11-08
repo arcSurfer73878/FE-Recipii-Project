@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  Image,
   View,
   Text,
   StyleSheet,
@@ -22,7 +23,7 @@ export default class HomePage extends Component {
             color: "black",
             onPress: () => this.props.navigation.navigate("Camera")
           }}
-          centerComponent={(<image resizeMode="cover" style={{ width: 150, height: 40, resizeMode: "contain", alignSelf: "center" }} source={require("../assets/scranner-logo-text-small.png")} />)}
+          centerComponent={(<Image resizeMode="cover" style={{ width: 150, height: 25, resizeMode: "contain", alignSelf: "center" }} source={require("../assets/scranner-logo-text-small.png")} />)}
           rightComponent={{
             icon: "person",
             size: 30,
