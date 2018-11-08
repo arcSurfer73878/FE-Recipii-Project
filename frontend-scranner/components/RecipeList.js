@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import { NavigationEvents } from 'react-navigation'
-
 import {
   TouchableOpacity,
   StyleSheet,
   Text,
   ImageBackground,
-  View
+  View,
+  TouchableOpacity
 } from "react-native";
-import { Icon } from "react-native-elements";
 import Frisbee from "frisbee";
 
 export default class RecipeList extends Component {
@@ -17,19 +15,10 @@ export default class RecipeList extends Component {
     isFocused: false
   };
 
-  onDidFocus = () => {
-    this.setState({ isFocused: true })
-  }
-
-  onDidBlur = () => {
-    this.setState({ isFocused: false })
-  }
-
   render() {
     const adjective = ['exquisite', 'delicious', 'tasty', 'smooth', 'mellow', 'organic', 'made fresh', 'succulent', 'savory', 'divine', 'refined', 'vibrant', 'sublime', 'delicate']
     return (
       <View style={styles.container}>
-        <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
         <ImageBackground source={require("../assets/paper-texture.jpeg")}
           style={
             (styles = {
@@ -102,12 +91,6 @@ export default class RecipeList extends Component {
     );
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.isFocused !== this.state.isFocused) {
-      this.getRecipes()
-    }
-  }
-
   addToBasket = (index) => {
     const recipeId = this.state.recipes[index]._id
     const api = new Frisbee({
@@ -137,7 +120,6 @@ export default class RecipeList extends Component {
   }
 
   deleteRecipe = (index) => {
-    console.log(this.state.recipes[index]._id)
     const api = new Frisbee({
       headers: {
         Accept: "application/json",

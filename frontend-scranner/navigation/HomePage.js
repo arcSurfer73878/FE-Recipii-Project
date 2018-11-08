@@ -4,17 +4,31 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
-  Platform,
   ImageBackground,
   ScrollView
 } from "react-native";
 import RecipeList from "../components/RecipeList.js";
 import { Header } from "react-native-elements";
+import { NavigationEvents } from 'react-navigation'
+
 export default class HomePage extends Component {
+
+  state = {
+    isFocused: false
+  };
+
+  onDidFocus = () => {
+    this.setState({ isFocused: true })
+  }
+
+  onDidBlur = () => {
+    this.setState({ isFocused: false })
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
         <Header
           outerContainerStyles={{ backgroundColor: "#60256b", height: 75, }}
           leftComponent={{

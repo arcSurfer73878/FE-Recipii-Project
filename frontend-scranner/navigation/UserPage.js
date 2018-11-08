@@ -13,6 +13,7 @@ import userImg from '../assets/userpicture.jpg'
 
 class UserPage extends Component {
   render() {
+    console.log(this.props.screenProps)
     return (<ImageBackground
       source={
         require('../assets/photo-recipe.png')
@@ -51,14 +52,15 @@ class UserPage extends Component {
               height: 40,
               width: 200,
               borderRadius: 0,
-            }} onPress={
-              () => this.props.navigation.navigate("App", { login: false })} ><Text style={styles = { color: 'white' }} >Logout</Text></TouchableOpacity>
+            }} onPress={this.props.screenProps.onLogout} ><Text style={styles = { color: 'white' }} >Logout</Text></TouchableOpacity>
           </View>
         </View>
       </View>
     </ImageBackground >
     );
   }
+
+
 }
 
 export default UserPage;

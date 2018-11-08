@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import { Button, Image, View, ImageBackground } from 'react-native';
-import { ImagePicker } from 'expo';
+import { ImagePicker, Permissions } from 'expo';
 import { Header } from 'react-native-elements'
 import axios from 'axios'
 import Frisbee from "frisbee";
 import { GOOGLEVISIONAPI, SPOONACULARAPI } from "../config/index.js";
+import { NavigationEvents } from 'react-navigation'
+import * as Progress from 'react-native-progress';
 
 export default class PostPage extends Component {
   state = {
-    image: null,
+    hasGalleryPermission: null,
+    isLoading: false,
   };
 
   render() {
-    let { image } = this.state;
-
     return (
       <View>
+        <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
         <View>
           <Header
             outerContainerStyles={{ backgroundColor: "#60256b", height: 75, }}
@@ -42,21 +44,34 @@ export default class PostPage extends Component {
             title="Pick an image from camera roll"
             onPress={this.pickImage}
           />
-          {image &&
-            <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+          {this.state.isLoading &&
+            <Progress.CircleSnail
+              color={['#E84224']}
+              animated={true}
+              thickness={10}
+              size={250}
+              style={{ position: "absolute", bottom: 200, alignSelf: "center" }}
+            />}
         </ImageBackground>
       </View>
     );
   }
 
-  pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      base64: true
-    });
+  componentWillMount() {
+    Permissions.askAsync(Permissions.CAMERA_ROLL)
+      .then(response => {
+        this.setState({ hasGalleryPermission: response === "granted" });
+      })
+  }
 
-    if (!result.cancelled) {
-      this.analyseRecipe(result.base64)
-    }
+  pickImage = () => {
+    ImagePicker.launchImageLibraryAsync({ base64: true })
+      .then(result => {
+        if (!result.cancelled) {
+          this.setState({ isLoading: true })
+          this.analyseRecipe(result.base64)
+        }
+      })
   };
 
   extractServings = ingredientList => {
@@ -84,7 +99,6 @@ export default class PostPage extends Component {
       ]
     };
     return axios
-
       .post(
         `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLEVISIONAPI}`,
         visionRequest

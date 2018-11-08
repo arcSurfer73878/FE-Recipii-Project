@@ -39,8 +39,14 @@ export default class App extends Component {
         <SignupSection />
       </ImageBackground>
       ) : (<AppNavigator
-        screenProps={{ user: this.state.user }}
+        screenProps={{ user: this.state.user, onLogout: () => this.handleLogout() }}
       />)
+  }
+
+  handleLogout = () => {
+    this.setState({
+      login: false
+    })
   }
 
   getUser = (username) => {
