@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar, StyleSheet, View, ImageBackground, KeyboardAvoidingView } from 'react-native';
-import { AppLoading, Asset, Font } from 'expo';
-import { createBottomTabNavigator, createSwitchNavigator, createStackNavigator } from 'react-navigation'
+import { ImageBackground, KeyboardAvoidingView, View } from 'react-native';
+import { createBottomTabNavigator, createSwitchNavigator } from 'react-navigation'
 import { Icon } from 'react-native-elements'
 import HomeScreen from "./navigation/HomePage"
 import PostScreen from './navigation/PostPage'
-import RecipeScreen from "./navigation/RecipePage"
 import BasketScreen from './navigation/BasketPage'
 import UserScreen from "./navigation/UserPage"
 import CameraScreen from './navigation/CameraPage'
 import Form from './components/Form'
 import Logo from './components/Logo'
-import SignupSection from './components/SignupSection';
-import ButtonSubmit from './components/ButtonSubmit';
-import UserPage from './navigation/UserPage';
 import Frisbee from 'frisbee';
 
 export default class App extends Component {
@@ -35,9 +30,10 @@ export default class App extends Component {
           }
           style={styles = { flex: 1, height: '100%', width: '100%' }}
         >
-          <Logo />
-          <Form getUser={this.getUser} />
-          <SignupSection />
+          <View style={{ flex: 1, marginBottom: 170 }}>
+            <Logo />
+            <Form getUser={this.getUser} />
+          </View>
         </ImageBackground>
       </KeyboardAvoidingView>
       ) : (<AppNavigator
@@ -127,8 +123,3 @@ const AppNavigator = createSwitchNavigator({
   Post: PostScreen,
 })
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

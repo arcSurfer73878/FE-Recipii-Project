@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Image, View, ImageBackground } from 'react-native';
+import { Button, View, ImageBackground } from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
 import { Header } from 'react-native-elements'
 import axios from 'axios'
@@ -19,24 +19,22 @@ export default class PostPage extends Component {
     return (
       <View>
         <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
-        <View>
-          <Header
-            outerContainerStyles={{ backgroundColor: "#60256b", height: 75, }}
-            leftComponent={{
-              icon: "camera-alt",
-              size: 30,
-              color: "white",
-              onPress: () => this.props.navigation.navigate("Camera")
-            }}
-            centerComponent={{ text: "Upload Recipe", style: { color: "white", fontSize: 18, } }}
-            rightComponent={{
-              icon: "person",
-              size: 30,
-              color: "white",
-              onPress: () => this.props.navigation.navigate("User")
-            }}
-          />
-        </View>
+        <Header
+          outerContainerStyles={{ backgroundColor: "#60256b", height: 75, }}
+          leftComponent={{
+            icon: "camera-alt",
+            size: 30,
+            color: "white",
+            onPress: () => this.props.navigation.navigate("Camera")
+          }}
+          centerComponent={{ text: "Upload Recipe", style: { color: "white", fontSize: 18, } }}
+          rightComponent={{
+            icon: "person",
+            size: 30,
+            color: "white",
+            onPress: () => this.props.navigation.navigate("User")
+          }}
+        />
         <ImageBackground source={require("../assets/offwhite.jpg")}
           style={{
             height: "100%",
@@ -63,8 +61,6 @@ export default class PostPage extends Component {
                     style={{ position: "absolute", bottom: 200, alignSelf: "center" }}
                   />}
               </View>
-              {this.state.image &&
-                <Image source={{ uri: this.state.image }} style={{ width: 200, height: 200 }} />}
             </ImageBackground>
           </View>
         </ImageBackground>
@@ -73,20 +69,18 @@ export default class PostPage extends Component {
   }
 
   componentWillMount() {
-    Permissions.askAsync(Permissions.CAMERA_ROLL)
-      .then(response => {
-        this.setState({ hasGalleryPermission: response === "granted" });
-      })
+    Permissions.askAsync(Permissions.CAMERA_ROLL).then(response => {
+      this.setState({ hasGalleryPermission: response === "granted" });
+    })
   }
 
   pickImage = () => {
-    ImagePicker.launchImageLibraryAsync({ base64: true })
-      .then(result => {
-        if (!result.cancelled) {
-          this.setState({ isLoading: true })
-          this.analyseRecipe(result.base64)
-        }
-      })
+    ImagePicker.launchImageLibraryAsync({ base64: true }).then(result => {
+      if (!result.cancelled) {
+        this.setState({ isLoading: true })
+        this.analyseRecipe(result.base64)
+      }
+    })
   };
 
   extractServings = ingredientList => {
@@ -99,6 +93,7 @@ export default class PostPage extends Component {
   };
 
   analyseRecipe = fileName => {
+    console.log('requests')
     const visionRequest = {
       requests: [
         {
@@ -113,25 +108,22 @@ export default class PostPage extends Component {
         }
       ]
     };
-    return axios
-
-      .post(
-        `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLEVISIONAPI}`,
-        visionRequest
-      )
-      .then(results => {
-        const recipeText =
-          results.data.responses[0].textAnnotations[0].description;
-        const ingredientList = recipeText.split("\n")
-        const serves = this.extractServings(ingredientList);
-        const ingredients = ingredientList.slice(
-          ingredientList.indexOf("Ingredients") + 1
-        );
-        this.parseIngredients(ingredients, serves, ingredientList[0]);
-      })
-      .catch(err => {
-        console.error("ERROR:", err);
-      });
+    return axios.post(
+      `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLEVISIONAPI}`,
+      visionRequest
+    ).then(results => {
+      console.log('received')
+      const recipeText =
+        results.data.responses[0].textAnnotations[0].description;
+      const ingredientList = recipeText.split("\n")
+      const serves = this.extractServings(ingredientList);
+      const ingredients = ingredientList.slice(
+        ingredientList.indexOf("Ingredients") + 1
+      );
+      this.parseIngredients(ingredients, serves, ingredientList[0]);
+    }).catch(err => {
+      console.error("ERROR:", err);
+    });
   };
 
   parseIngredients = (ingredients, serves, title) => {
@@ -144,15 +136,11 @@ export default class PostPage extends Component {
         "Content-Type": "application/x-www-form-urlencoded"
       }
     });
-    Promise.all(
-      ingredients.map(ingredient => {
-        return api.post(`?ingredientList=${ingredient}&servings=${serves}`);
-      })
-    )
-      .then(response => this.addNewRecipe(response, title, serves))
-      .catch(err => {
-        console.error("ERROR2:", err);
-      });
+    Promise.all(ingredients.map(ingredient => {
+      return api.post(`?ingredientList=${ingredient}&servings=${serves}`)
+    })).then(response => this.addNewRecipe(response, title, serves)).catch(err => {
+      console.error("ERROR2:", err);
+    });
   };
 
   addNewRecipe = (ingredients, title, servings) => {
@@ -180,13 +168,11 @@ export default class PostPage extends Component {
       servings,
       ingredients: ingredientList
     };
-    api
-      .post(
-        `https://scranner123.herokuapp.com/api/recipes/${this.props.screenProps.user._id}`,
-        { body: request }
-      )
-      .then(() => {
-        this.props.navigation.navigate("Home")
-      });
+    api.post(
+      `https://scranner123.herokuapp.com/api/recipes/${this.props.screenProps.user._id}`,
+      { body: request }
+    ).then(() => {
+      this.props.navigation.navigate("Home")
+    });
   };
 }

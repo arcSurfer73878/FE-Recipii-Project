@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   Image,
   ImageBackground,
   TouchableOpacity
@@ -21,9 +20,9 @@ class UserPage extends Component {
     >
       <View style={styles = { flex: 1 }}>
         <Header
-          outerContainerStyles={{ backgroundColor: '#ffffff' }}
-          leftComponent={{ icon: 'keyboard-arrow-left', color: 'black', onPress: () => this.props.navigation.navigate('Home') }}
-          centerComponent={{ text: this.props.screenProps.user.username, style: { color: 'black' } }} />
+          outerContainerStyles={{ backgroundColor: "#60256b", height: 75, }}
+          leftComponent={{ icon: 'keyboard-arrow-left', color: 'white', size: 30, onPress: () => this.props.navigation.navigate('Home') }}
+          centerComponent={{ text: this.props.screenProps.user.username, style: { color: 'white', fontSize: 18 } }} />
         <View style={styles = { flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <View style={styles = { padding: 20, flex: 1 }}>
             <Image source={this.props.screenProps.user.username === 'mitchismean' ? mitchImg : userImg} style={styles = { height: 150, width: 150, borderRadius: 75 }} />
@@ -42,8 +41,7 @@ class UserPage extends Component {
               height: 40,
               width: 200,
               borderRadius: 0,
-            }} onPress={
-              () => this.props.navigation.navigate("App", { login: false })} ><Text style={styles = { color: 'white' }} >Logout</Text></TouchableOpacity>
+            }} onPress={this.props.screenProps.onLogout} ><Text style={styles = { color: 'white' }} >Logout</Text></TouchableOpacity>
           </View>
         </View>
       </View>

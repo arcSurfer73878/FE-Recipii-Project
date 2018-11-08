@@ -2,23 +2,29 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
-  ImageBackground,
   View,
-  TouchableOpacity
 } from "react-native";
 import { Icon } from "react-native-elements";
 import Frisbee from "frisbee";
+import { NavigationEvents } from 'react-navigation'
 
 export default class RecipeList extends Component {
   state = {
     recipes: [],
     isFocused: false
   };
+  onDidFocus = () => {
+    this.setState({ isFocused: true })
+  }
 
+  onDidBlur = () => {
+    this.setState({ isFocused: false })
+  }
   render() {
     const adjective = ['exquisite', 'delicious', 'tasty', 'smooth', 'mellow', 'organic', 'fresh', 'succulent', 'savory', 'divine', 'refined', 'vibrant', 'sublime', 'delicate']
     return (
       <View style={styles.container}>
+        <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
         <View>
           {this.state.recipes.length > 0 ?
             this.state.recipes.map((recipe, index) => {
@@ -31,21 +37,18 @@ export default class RecipeList extends Component {
               return (
                 <View
                   key={recipe._id}
-                  // source={require("../assets/offwhite.jpg")}
-                  style={
-                    (styles = {
-                      alignItems: 'center',
-                      marginBottom: '2%',
-                      marginTop: '2%',
-                      marginLeft: '5%',
-                      marginRight: '5%',
-                      alignItems: "center",
-                      paddingBottom: 0,
-                      paddingTop: 20,
-                      backgroundColor: '#fbfbfb',
-                      borderColor: 'grey',
-                      borderWidth: 1
-                    })}
+                  style={{
+                    width: 335,
+                    alignItems: 'center',
+                    marginBottom: '2%',
+                    marginTop: 20,
+                    marginLeft: '5%',
+                    marginRight: '5%',
+                    paddingBottom: 0,
+                    paddingTop: 20,
+                    borderColor: 'grey',
+                    borderWidth: 1
+                  }}
                 ><View style={{ right: 148, top: -13 }}>
                     <Icon name='clear' onPress={() => this.deleteRecipe(index)} />
                   </View >
@@ -91,7 +94,11 @@ export default class RecipeList extends Component {
       </View>
     );
   }
-
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.isFocused !== this.state.isFocused) {
+      this.getRecipes()
+    }
+  }
   addToBasket = (index) => {
     const recipeId = this.state.recipes[index]._id
     const api = new Frisbee({
@@ -100,10 +107,9 @@ export default class RecipeList extends Component {
         "Content-Type": "application/json"
       }
     });
-    api
-      .patch(
-        `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.user._id}/${recipeId}?update=add`
-      )
+    api.patch(
+      `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.user._id}/${recipeId}?update=add`
+    )
   }
 
   deleteFromBasket = (index) => {
@@ -114,10 +120,9 @@ export default class RecipeList extends Component {
         "Content-Type": "application/json"
       }
     });
-    api
-      .patch(
-        `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.user._id}/${recipeId}?update=remove`
-      )
+    api.patch(
+      `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.user._id}/${recipeId}?update=remove`
+    )
   }
 
   deleteRecipe = (index) => {
@@ -127,14 +132,12 @@ export default class RecipeList extends Component {
         "Content-Type": "application/json"
       }
     });
-    api
-      .del(
-        `https://scranner123.herokuapp.com/api/recipes/${this.state.recipes[index]._id}`
-      )
-      .then(() => {
-        const filteredRecipes = this.state.recipes.filter(recipe => recipe._id !== this.state.recipes[index]._id)
-        this.setState({ recipes: filteredRecipes })
-      });
+    api.del(
+      `https://scranner123.herokuapp.com/api/recipes/${this.state.recipes[index]._id}`
+    ).then(() => {
+      const filteredRecipes = this.state.recipes.filter(recipe => recipe._id !== this.state.recipes[index]._id)
+      this.setState({ recipes: filteredRecipes })
+    });
   }
 
   componentDidMount() {
@@ -148,13 +151,11 @@ export default class RecipeList extends Component {
         "Content-Type": "application/json"
       }
     });
-    api
-      .get(
-        `https://scranner123.herokuapp.com/api/recipes/${this.props.user._id}`
-      )
-      .then(response => {
-        this.setState({ recipes: response.body.recipes.reverse() });
-      });
+    api.get(
+      `https://scranner123.herokuapp.com/api/recipes/${this.props.user._id}`
+    ).then(response => {
+      this.setState({ recipes: response.body.recipes.reverse() });
+    });
   }
 }
 
