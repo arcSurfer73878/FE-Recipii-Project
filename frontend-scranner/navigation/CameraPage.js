@@ -46,7 +46,7 @@ export default class CameraExample extends Component {
             style={{ flex: 1 }}
             type={this.state.type}
           >
-            {this.state.isLoading && <Progress.CircleSnail animated={true} thickness={10} size={250} style={{ position: "absolute", bottom: 200, alignSelf: "center" }}></Progress.CircleSnail>}
+            {this.state.isLoading && <Progress.CircleSnail color={['#E84224']} animated={true} thickness={10} size={250} style={{ position: "absolute", bottom: 200, alignSelf: "center" }}></Progress.CircleSnail>}
             <View
               style={{ position: "absolute", bottom: 35, alignSelf: "center" }}
             >
@@ -72,10 +72,9 @@ export default class CameraExample extends Component {
   takePicture = () => {
     if (this.camera) {
       const options = { base64: true };
-      // this.setState({ isLoading: true })
+      this.setState({ isLoading: true })
       this.camera.takePictureAsync(options)
         .then(data => {
-          ``
           this.analyseRecipe(data.base64)
         })
     }
@@ -112,18 +111,9 @@ export default class CameraExample extends Component {
         visionRequest
       )
       .then(results => {
-        console.log("Google Vision Responding");
         const recipeText =
           results.data.responses[0].textAnnotations[0].description;
         const ingredientList = recipeText.split("\n")
-        // const ingredientList = [
-        //   "Grandmas Stuffed Zucchini",
-        //   "yeild: 4 Servings",
-        //   "Cook Time: 20 mins",
-        //   "Ingredients",
-        //   "2 Zucchini",
-        //   "1 small onion"
-        // ];
         const serves = this.extractServings(ingredientList);
         const ingredients = ingredientList.slice(
           ingredientList.indexOf("Ingredients") + 1
@@ -153,7 +143,6 @@ export default class CameraExample extends Component {
       .then(response => this.addNewRecipe(response, title, serves))
       .catch(err => {
         console.error("ERROR2:", err);
-        // Object.entries(err)
       });
   };
 
@@ -166,7 +155,6 @@ export default class CameraExample extends Component {
     });
 
     const ingredientList = ingredients.reduce((acc, ingredient) => {
-      // console.log("adding a new recipe....", ingredient.body)
       if (ingredient.body.length > 0)
         acc.push({
           foodType: ingredient.body[0].aisle,
@@ -184,15 +172,12 @@ export default class CameraExample extends Component {
       ingredients: ingredientList
     };
 
-    // console.log(request, "<<<<<<<<<<<<<<<<");
-    // TODO: change this to add props
     api
       .post(
-        `https://scranner123.herokuapp.com/api/recipes/5be055751d089848b0d05f9b`,
+        `https://scranner123.herokuapp.com/api/recipes/${this.props.screenProps.user._id}`,
         { body: request }
       )
       .then(response => {
-        // console.log(response)
         this.props.navigation.navigate("Home")
       });
   };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Image, View, ImageBackground } from 'react-native';
-import { ImagePicker } from 'expo';
+import { ImagePicker, Permissions } from 'expo';
 import { Header } from 'react-native-elements'
 import axios from 'axios'
 import Frisbee from "frisbee";
@@ -9,6 +9,7 @@ import { GOOGLEVISIONAPI, SPOONACULARAPI } from "../config/index.js";
 export default class PostPage extends Component {
   state = {
     image: null,
+    hasGalleryPermission: null
   };
 
   render() {
@@ -47,6 +48,13 @@ export default class PostPage extends Component {
         </ImageBackground>
       </View>
     );
+  }
+
+  componentWillMount() {
+    Permissions.askAsync(Permissions.CAMERA_ROLL)
+    .then(response => {
+      this.setState({ hasGalleryPermission: response === "granted" });
+    })
   }
 
   pickImage = async () => {
