@@ -78,6 +78,9 @@ export default class PostPage extends Component {
     ImagePicker.launchImageLibraryAsync({ base64: true }).then(result => {
       if (!result.cancelled) {
         this.setState({ isLoading: true })
+        setTimeout(() => {
+          this.setState({ isLoading: false })
+        }, 2000)
         this.analyseRecipe(result.base64)
       }
     })

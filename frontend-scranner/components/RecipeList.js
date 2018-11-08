@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Alert
 } from "react-native";
 import { Icon } from "react-native-elements";
 import Frisbee from "frisbee";
@@ -109,7 +110,9 @@ export default class RecipeList extends Component {
     });
     api.patch(
       `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.user._id}/${recipeId}?update=add`
-    )
+    ).then(Alert.alert(
+      'Success',
+      'Added To Basket'))
   }
 
   deleteFromBasket = (index) => {
@@ -122,7 +125,9 @@ export default class RecipeList extends Component {
     });
     api.patch(
       `https://scranner123.herokuapp.com/api/shopping-lists/${this.props.user._id}/${recipeId}?update=remove`
-    )
+    ).then(Alert.alert(
+      'Success',
+      'Deleted From Basket'))
   }
 
   deleteRecipe = (index) => {
@@ -137,7 +142,9 @@ export default class RecipeList extends Component {
     ).then(() => {
       const filteredRecipes = this.state.recipes.filter(recipe => recipe._id !== this.state.recipes[index]._id)
       this.setState({ recipes: filteredRecipes })
-    });
+    }).then(Alert.alert(
+      'Success',
+      'Recipe Deleted'));
   }
 
   componentDidMount() {
