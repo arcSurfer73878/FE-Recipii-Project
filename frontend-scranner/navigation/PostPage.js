@@ -96,7 +96,6 @@ export default class PostPage extends Component {
   };
 
   analyseRecipe = fileName => {
-    console.log('requests')
     const visionRequest = {
       requests: [
         {
@@ -115,7 +114,6 @@ export default class PostPage extends Component {
       `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLEVISIONAPI}`,
       visionRequest
     ).then(results => {
-      console.log('received')
       const recipeText =
         results.data.responses[0].textAnnotations[0].description;
       const ingredientList = recipeText.split("\n")
