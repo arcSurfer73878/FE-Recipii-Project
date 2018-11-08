@@ -16,7 +16,7 @@ export default class CameraExample extends Component {
 
   componentWillMount() {
     Permissions.askAsync(Permissions.CAMERA)
-      .then(status => {
+      .then(({ status }) => {
         this.setState({ hasCameraPermission: status === "granted" });
       })
   }
@@ -32,14 +32,14 @@ export default class CameraExample extends Component {
       return (
         <View style={{ flex: 1 }}>
           <Header
-            outerContainerStyles={{ backgroundColor: "#ffffff", height: 75, }}
+            outerContainerStyles={{ backgroundColor: "#60256b", height: 75, }}
             rightComponent={{
               icon: "keyboard-arrow-right",
-              color: "black",
+              color: "white",
               size: 30,
               onPress: () => this.props.navigation.navigate("Home")
             }}
-            centerComponent={{ text: "Scan A Recipe", style: { color: "black", fontSize: 18, } }}
+            centerComponent={{ text: "Scan A Recipe", style: { color: "white", fontSize: 18, } }}
           />
           <Camera
             ref={ref => {
