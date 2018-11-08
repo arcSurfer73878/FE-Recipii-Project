@@ -4,30 +4,29 @@ import {
   Text,
   StyleSheet,
   Image,
-  Button,
   ImageBackground,
   TouchableOpacity
 } from "react-native";
 import { Header } from 'react-native-elements'
 import userImg from '../assets/userpicture.jpg'
+import mitchImg from '../assets/mitchismean.jpeg'
 
 class UserPage extends Component {
   render() {
-    console.log(this.props.screenProps)
     return (<ImageBackground
       source={
-        require('../assets/photo-recipe.png')
+        require('../assets/white.jpg')
       }
       style={styles = { height: '100%', width: '100%' }}
     >
       <View style={styles = { flex: 1 }}>
         <Header
-          outerContainerStyles={{ backgroundColor: '#60256b', height: 75, }}
-          leftComponent={{ icon: 'keyboard-arrow-left', color: 'white', size: 30, onPress: () => this.props.navigation.navigate('Home') }}
-          centerComponent={{ text: this.props.screenProps.user.username, style: { color: 'white', fontSize: 20, } }} />
+          outerContainerStyles={{ backgroundColor: '#ffffff' }}
+          leftComponent={{ icon: 'keyboard-arrow-left', color: 'black', onPress: () => this.props.navigation.navigate('Home') }}
+          centerComponent={{ text: this.props.screenProps.user.username, style: { color: 'black' } }} />
         <View style={styles = { flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <View style={styles = { padding: 20, flex: 1 }}>
-            <Image source={!this.props.screenProps.user.profilePicture ? userImg : this.props.screenProps.user.profilePicture} style={styles = { height: 150, width: 150, borderRadius: 75 }} />
+            <Image source={this.props.screenProps.user.username === 'mitchismean' ? mitchImg : userImg} style={styles = { height: 150, width: 150, borderRadius: 75 }} />
           </View>
           <Text></Text>
           <View style={styles = { flex: 1, padding: 20, alignItems: 'center', justifyContent: 'center' }}>
@@ -39,28 +38,18 @@ class UserPage extends Component {
             <TouchableOpacity style={styles = {
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: 'orange',
+              backgroundColor: '#E84224',
               height: 40,
               width: 200,
               borderRadius: 0,
-            }} ><Text style={styles = { color: 'white' }}>Edit</Text></TouchableOpacity>
-            <Text></Text>
-            <TouchableOpacity style={styles = {
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'orange',
-              height: 40,
-              width: 200,
-              borderRadius: 0,
-            }} onPress={this.props.screenProps.onLogout} ><Text style={styles = { color: 'white' }} >Logout</Text></TouchableOpacity>
+            }} onPress={
+              () => this.props.navigation.navigate("App", { login: false })} ><Text style={styles = { color: 'white' }} >Logout</Text></TouchableOpacity>
           </View>
         </View>
       </View>
     </ImageBackground >
     );
   }
-
-
 }
 
 export default UserPage;

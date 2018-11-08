@@ -12,6 +12,7 @@ export default class PostPage extends Component {
   state = {
     hasGalleryPermission: null,
     isLoading: false,
+    image: null,
   };
 
   render() {
@@ -36,22 +37,36 @@ export default class PostPage extends Component {
             }}
           />
         </View>
-        <ImageBackground source={require("../assets/badass-chef.jpg")} style={{
-          alignItems: 'center', height: "100%",
-          width: "100%"
-        }}>
-          <Button
-            title="Pick an image from camera roll"
-            onPress={this.pickImage}
-          />
-          {this.state.isLoading &&
-            <Progress.CircleSnail
-              color={['#E84224']}
-              animated={true}
-              thickness={10}
-              size={250}
-              style={{ position: "absolute", bottom: 200, alignSelf: "center" }}
-            />}
+        <ImageBackground source={require("../assets/offwhite.jpg")}
+          style={{
+            height: "100%",
+            width: "100%"
+          }}>
+          <View style={{ alignItems: 'center', marginRight: 20, marginLeft: 20, marginBottom: 160, marginTop: 20, borderWidth: 1, borderColor: 'grey' }}>
+            <ImageBackground source={require("../assets/white.jpg")} style={{
+              height: '100%',
+              width: '100%'
+            }}>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+                <Button
+                  title='Pick a image from the camera roll'
+                  onPress={this.pickImage}
+                  color='black'
+                  size={18}
+                />
+                {this.state.isLoading &&
+                  <Progress.CircleSnail
+                    color={['#E84224']}
+                    animated={true}
+                    thickness={10}
+                    size={250}
+                    style={{ position: "absolute", bottom: 200, alignSelf: "center" }}
+                  />}
+              </View>
+              {this.state.image &&
+                <Image source={{ uri: this.state.image }} style={{ width: 200, height: 200 }} />}
+            </ImageBackground>
+          </View>
         </ImageBackground>
       </View>
     );
