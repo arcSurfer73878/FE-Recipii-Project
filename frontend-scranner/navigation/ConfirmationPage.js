@@ -60,6 +60,7 @@ export default class ConfirmationPage extends Component {
 
   componentDidMount() {
     console.log('Mounting...')
+    this.parseIngredients(this.state.ingredients, this.state.servings, this.state.title)
     this.setState({
       title: this.props.navigation.getParam('title', ''),
       ingredients: this.props.navigation.getParam('ingredients', []),
@@ -67,12 +68,12 @@ export default class ConfirmationPage extends Component {
     })
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.ingredients !== this.state.ingredients) {
-      console.log('updating...'),
-        this.parseIngredients(this.state.ingredients, this.state.servings, this.state.title)
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.ingredients.length !== this.state.ingredients.length) {
+  //     console.log('updating...')
+
+  //   }
+  // }
 
   updateText = (text, input) => {
     this.setState({
@@ -109,7 +110,7 @@ export default class ConfirmationPage extends Component {
           console.log(ingredient.body, 'spoonacular response')
           return ingredient.body
         })
-        // this.setState({ ingredients })
+        this.setState({ ingredients })
       })
       .catch(err => {
         console.error("ERROR2:", err);
