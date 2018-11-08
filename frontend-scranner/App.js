@@ -66,7 +66,8 @@ const BottomNavigator = createBottomTabNavigator({
     screen: HomeScreen,
     navigationOptions: () => ({
       tabBarOptions: {
-        showLabel: false
+        showLabel: false,
+        activeTintColor: '#60256b'
       },
       tabBarIcon: ({ tintColor }) => (
         <Icon
@@ -81,7 +82,8 @@ const BottomNavigator = createBottomTabNavigator({
     screen: PostScreen,
     navigationOptions: () => ({
       tabBarOptions: {
-        showLabel: false
+        showLabel: false,
+        activeTintColor: '#60256b'
       },
       tabBarIcon: ({ tintColor }) => (
         <Icon
@@ -96,7 +98,8 @@ const BottomNavigator = createBottomTabNavigator({
     screen: BasketScreen,
     navigationOptions: () => ({
       tabBarOptions: {
-        showLabel: false
+        showLabel: false,
+        activeTintColor: '#60256b'
       },
       tabBarIcon: ({ tintColor }) => (
         <Icon
@@ -121,4 +124,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  tintColor: {
+
+  }
 });

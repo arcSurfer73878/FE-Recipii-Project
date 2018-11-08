@@ -16,18 +16,18 @@ export default class HomePage extends Component {
     return (
       <View style={styles.container}>
         <Header
-          outerContainerStyles={{ backgroundColor: "#ffffff", height: 75, }}
+          outerContainerStyles={{ backgroundColor: "#60256b", height: 75, }}
           leftComponent={{
             icon: "camera-alt",
             size: 30,
-            color: "black",
+            color: "white",
             onPress: () => this.props.navigation.navigate("Camera")
           }}
-          centerComponent={(<Image resizeMode="cover" style={{ width: 150, height: 25, resizeMode: "contain", alignSelf: "center" }} source={require("../assets/scranner-logo-text-small.png")} />)}
+          centerComponent={(<Image resizeMode="cover" style={{ width: 150, height: 25, resizeMode: "contain", alignSelf: "center" }} source={require("../assets/scranner-logo-text-small-white.png")} />)}
           rightComponent={{
             icon: "person",
             size: 30,
-            color: "black",
+            color: "white",
             onPress: () => this.props.navigation.navigate("User")
           }}
         />

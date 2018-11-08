@@ -18,18 +18,18 @@ export default class PostPage extends Component {
       <View>
         <View>
           <Header
-            outerContainerStyles={{ backgroundColor: "#ffffff", height: 75, }}
+            outerContainerStyles={{ backgroundColor: "#60256b", height: 75, }}
             leftComponent={{
               icon: "camera-alt",
               size: 30,
-              color: "black",
+              color: "white",
               onPress: () => this.props.navigation.navigate("Camera")
             }}
-            centerComponent={{ text: "Upload Recipe", style: { color: "black", fontSize: 18, } }}
+            centerComponent={{ text: "Upload Recipe", style: { color: "white", fontSize: 18, } }}
             rightComponent={{
               icon: "person",
               size: 30,
-              color: "black",
+              color: "white",
               onPress: () => this.props.navigation.navigate("User")
             }}
           />
