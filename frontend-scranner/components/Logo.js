@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 
-import logoImg from '../assets/logo.png';
 import scranner from '../assets/scranner-vector-app.png'
 import scrannertext from '../assets/scranner-logo-text-small-white.png'
 

@@ -17,20 +17,11 @@ export default class HomePage extends Component {
     isFocused: false
   };
 
-  onDidFocus = () => {
-    this.setState({ isFocused: true })
-  }
-
-  onDidBlur = () => {
-    this.setState({ isFocused: false })
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
         <Header
-          outerContainerStyles={{ backgroundColor: "#60256b", height: 75, }}
+          outerContainerStyles={{ backgroundColor: "#60256b", height: 75 }}
           leftComponent={{
             icon: "camera-alt",
             size: 30,

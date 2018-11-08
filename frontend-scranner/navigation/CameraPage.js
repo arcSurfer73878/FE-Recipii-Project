@@ -67,10 +67,6 @@ export default class CameraExample extends Component {
     }
   }
 
-  // setIsLoading = () => {
-  //   this.setState({ isLoading: true })
-  // }
-
   takePicture = () => {
     if (this.camera) {
       const options = { base64: true };
