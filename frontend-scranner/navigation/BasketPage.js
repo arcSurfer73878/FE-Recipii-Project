@@ -29,15 +29,17 @@ export default class BasketPage extends React.Component {
       <View>
         <NavigationEvents onDidFocus={this.onDidFocus} onDidBlur={this.onDidBlur} />
         <Header
-          outerContainerStyles={{ backgroundColor: "#ffffff" }}
+          outerContainerStyles={{ backgroundColor: "#ffffff", height: 75, }}
           leftComponent={{
             icon: "camera-alt",
+            size: 30,
             color: "black",
             onPress: () => this.props.navigation.navigate("Camera")
           }}
-          centerComponent={{ text: "Basket", style: { color: "black" } }}
+          centerComponent={{ text: `${this.props.screenProps.user.firstName}'s Basket`, style: { color: "black", fontSize: 18, } }}
           rightComponent={{
             icon: "person",
+            size: 30,
             color: "black",
             onPress: () => this.props.navigation.navigate("User")
           }}
