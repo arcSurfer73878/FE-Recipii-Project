@@ -10,12 +10,13 @@ import {
 } from "react-native";
 import { Header } from 'react-native-elements'
 import userImg from '../assets/userpicture.jpg'
+import mitchImg from '../assets/mitchismean.jpeg'
 
 class UserPage extends Component {
   render() {
     return (<ImageBackground
       source={
-        require('../assets/photo-recipe.png')
+        require('../assets/white.jpg')
       }
       style={styles = { height: '100%', width: '100%' }}
     >
@@ -26,7 +27,7 @@ class UserPage extends Component {
           centerComponent={{ text: this.props.screenProps.user.username, style: { color: 'black' } }} />
         <View style={styles = { flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <View style={styles = { padding: 20, flex: 1 }}>
-            <Image source={!this.props.screenProps.user.profilePicture ? userImg : this.props.screenProps.user.profilePicture} style={styles = { height: 150, width: 150, borderRadius: 75 }} />
+            <Image source={this.props.screenProps.user.username === 'mitchismean' ? mitchImg : userImg} style={styles = { height: 150, width: 150, borderRadius: 75 }} />
           </View>
           <Text></Text>
           <View style={styles = { flex: 1, padding: 20, alignItems: 'center', justifyContent: 'center' }}>
@@ -38,16 +39,7 @@ class UserPage extends Component {
             <TouchableOpacity style={styles = {
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: 'orange',
-              height: 40,
-              width: 200,
-              borderRadius: 0,
-            }} ><Text style={styles = { color: 'white' }}>Edit</Text></TouchableOpacity>
-            <Text></Text>
-            <TouchableOpacity style={styles = {
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'orange',
+              backgroundColor: '#E84224',
               height: 40,
               width: 200,
               borderRadius: 0,

@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 
 import logoImg from '../assets/logo.png';
 import scranner from '../assets/scranner-vector-app.png'
-import scrannertext from '../assets/scranner-smalltext.png'
+import scrannertext from '../assets/scranner-logo-text-small-white.png'
 
 export default class Logo extends Component {
   render() {
@@ -21,19 +21,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   image: {
     width: '50%',
     height: '50%',
-    top: 60
+    top: 130
   },
   text: {
-    top: 100,
-    width: '100%',
-    height: '20%',
-    padding: 20,
-    marginRight: '20%',
-    marginLeft: '20%',
+    top: 180,
+    width: 360,
+    height: 50,
   },
 });

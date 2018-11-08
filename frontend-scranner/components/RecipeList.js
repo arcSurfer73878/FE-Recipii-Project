@@ -40,9 +40,9 @@ export default class RecipeList extends Component {
                 })
                 .join(" ");
               return (
-                <ImageBackground
+                <View
                   key={recipe._id}
-                  source={require("../assets/paper-texture.jpeg")}
+                  // source={require("../assets/offwhite.jpg")}
                   style={
                     (styles = {
                       alignItems: 'center',
@@ -51,53 +51,46 @@ export default class RecipeList extends Component {
                       marginLeft: '5%',
                       marginRight: '5%',
                       alignItems: "center",
-                      paddingBottom: 20,
+                      paddingBottom: 0,
                       paddingTop: 20,
+                      backgroundColor: '#fbfbfb',
+                      borderColor: 'grey',
+                      borderWidth: 1
                     })}
                 ><View style={{ right: 148, top: -13 }}>
                     <Icon name='clear' onPress={() => this.deleteRecipe(index)} />
+                  </View >
+                  <View style={{ top: -20, alignItems: 'center' }}>
+                    <View style={{ width: '80%' }}>
+                      <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center' }}>
+                        {recipeTitle}
+                      </Text>
+                    </View>
+                    <Text />
+                    <Text style={{ fontSize: 18 }}>
+                      Serving for {recipe.servings} {recipe.servings > 1 ? 'Gourmets' : 'Gourmet'}
+                    </Text>
+                    <Text />
+                    <Text style={{ fontSize: 18, fontStyle: 'italic' }}>Les ingrédients du Chef:</Text>
+                    <Text />
+                    {recipe.ingredients.map((ingredient) => {
+                      return (
+                        <View key={ingredient._id}>
+                          <Text style={{ fontSize: 18, fontStyle: "italic" }}>
+                            {ingredient.amount} {ingredient.units === ingredient.name.toLowerCase() || ingredient.units === '' ? adjective[Math.floor(Math.random() * Math.floor(13))] : ingredient.units} {ingredient.name}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20 }}>
+                      <Icon name='remove' onPress={() => this.deleteFromBasket(index)} size={30} />
+                      <Text>   </Text>
+                      <Icon name='shopping-basket' size={30} />
+                      <Text>   </Text>
+                      <Icon name='add' onPress={() => this.addToBasket(index)} size={30} />
+                    </View>
                   </View>
-                  <Text style={{ fontSize: 22, fontWeight: 'bold' }}>
-                    {recipeTitle}
-                  </Text>
-                  <Text />
-                  <Text style={{ fontSize: 18 }}>
-                    Serving for {recipe.servings} {recipe.servings > 1 ? 'Gourmets' : 'Gourmet'}
-                  </Text>
-                  <Text />
-                  <Text style={{ fontSize: 18, fontStyle: 'italic' }}>Les ingrédients du Chef:</Text>
-                  <Text />
-                  {recipe.ingredients.map((ingredient) => {
-                    return (
-                      <View key={ingredient._id}>
-                        <Text style={{ fontSize: 18, fontStyle: "italic" }}>
-                          {ingredient.amount} {ingredient.units === ingredient.name.toLowerCase() || ingredient.units === '' ? adjective[Math.floor(Math.random() * Math.floor(13))] : ingredient.units} {ingredient.name}
-                        </Text>
-                      </View>
-                    );
-                  })}
-                  <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20 }}>
-                    <Icon name='remove' onPress={() => this.deleteFromBasket(index)} />
-                    <Icon name='shopping-basket' />
-                    <Icon name='add' onPress={() => this.addToBasket(index)} />
-                  </View>
-
-                  {/* <View style={{ alignItems: "center", padding: 10 }}>
-                    <TouchableOpacity onPress={() => this.deleteRecipe(index)}>
-                      <Text style={{ color: "red", fontSize: 18 }} >Delete Recipe</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{ alignItems: "center", paddingTop: 10 }}>
-                    <TouchableOpacity onPress={() => this.addToBasket(index)}>
-                      <Text style={{ color: "blue", fontSize: 18 }} >Add to Basket</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{ alignItems: "center", padding: 10 }}>
-                    <TouchableOpacity onPress={() => this.deleteFromBasket(index)}>
-                      <Text style={{ color: "red", fontSize: 18 }} >Delete from Basket</Text>
-                    </TouchableOpacity>
-                  </View> */}
-                </ImageBackground>
+                </View>
               );
             })
             : <View style={{ alignItems: "center", padding: 10 }}>
