@@ -14,9 +14,11 @@ export default class CameraExample extends Component {
     isLoading: false,
   };
 
-  async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === "granted" });
+  componentWillMount() {
+    Permissions.askAsync(Permissions.CAMERA)
+      .then(status => {
+        this.setState({ hasCameraPermission: status === "granted" });
+      })
   }
 
   render() {
@@ -46,7 +48,7 @@ export default class CameraExample extends Component {
             style={{ flex: 1 }}
             type={this.state.type}
           >
-            {this.state.isLoading && <Progress.CircleSnail color={['#E84224']} animated={true} thickness={10} size={250} style={{ position: "absolute", bottom: 200, alignSelf: "center" }}></Progress.CircleSnail>}
+            {this.state.isLoading && <Progress.CircleSnail color={['#E84224']} animated={true} thickness={10} size={250} style={{ position: "absolute", bottom: 200, alignSelf: "center" }} />}
             <View
               style={{ position: "absolute", bottom: 35, alignSelf: "center" }}
             >
@@ -65,9 +67,9 @@ export default class CameraExample extends Component {
     }
   }
 
-  setIsLoading = () => {
-    this.setState({ isLoading: true })
-  }
+  // setIsLoading = () => {
+  //   this.setState({ isLoading: true })
+  // }
 
   takePicture = () => {
     if (this.camera) {
