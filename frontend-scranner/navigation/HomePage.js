@@ -46,7 +46,7 @@ export default class HomePage extends Component {
           }}
         />
         <ImageBackground
-          source={require("../assets/photo-recipe.png")}
+          source={require("../assets/white.jpg")}
           style={styles.welcomeImage}
         >
           <ScrollView>

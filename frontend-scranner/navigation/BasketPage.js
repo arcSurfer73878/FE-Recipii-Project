@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, ScrollView, Button, Image, TouchableOpacity } from "react-native";
+import { Text, View, ScrollView, ImageBackground, Image, TouchableOpacity } from "react-native";
 import { Header, CheckBox } from "react-native-elements";
 import { NavigationEvents } from 'react-navigation'
 import Frisbee from "frisbee";
@@ -44,48 +44,58 @@ export default class BasketPage extends React.Component {
             onPress: () => this.props.navigation.navigate("User")
           }}
         />
-        <View style={{ alignItems: "center" }}>
-          {numberItems <= 0
-            ? <Text style={{ margin: '5%', fontSize: 18, fontFamily: 'Courier' }}>Your Basket is empty</Text>
-            : <Text style={{ margin: '5%', fontSize: 18, fontFamily: 'Courier' }}>
-              {" "}
-              You have{" "}
-              {numberItems}
-              {' '}items left to buy
+        <ImageBackground source={require("../assets/white.jpg")}
+          style={{
+            height: "100%",
+            width: "100%"
+          }}>
+          <View style={{ alignItems: "center" }}>
+            {numberItems <= 0
+              ? <Text style={{ margin: '5%', fontSize: 18, fontFamily: 'Courier', color: 'black' }}>Your Basket is empty</Text>
+              : <Text style={{ margin: '5%', fontSize: 18, fontFamily: 'Courier', color: 'black' }}>
+                {" "}
+                You have{" "}
+                {numberItems}
+                {' '}items left to buy
           </Text>}
-        </View>
-        <ScrollView>
-          {shoppingList.map((ingredient, index) => {
-            let item = ingredient.name
-              .split(" ")
-              .map(word => {
-                return word[0].toUpperCase() + word.slice(1);
-              })
-              .join(" ")
-            return (
-              ingredient.amount !== 0 &&
-              <View key={ingredient._id}>
-                <CheckBox
-                  key={index}
-                  title={item}
-                  checked={this.state.shoppingList[index].isChecked}
-                  onPress={() =>
-                    this.handlePress(index)
-                  }
-                />
-                <Text style={{ textAlign: 'right', marginRight: '5%' }}>amount: {ingredient.amount}{' '}{ingredient.amount > 1 && ingredient.units === "tin" && "can" || "" ? ingredient.units + 's' : ingredient.units}</Text>
+          </View>
+          <ScrollView>
+            {shoppingList.map((ingredient, index) => {
+              let item = ingredient.name
+                .split(" ")
+                .map(word => {
+                  return word[0].toUpperCase() + word.slice(1);
+                })
+                .join(" ")
+              return (
+                ingredient.amount !== 0 &&
+                <View key={ingredient._id}>
+                  <CheckBox
+                    containerStyle={{ backgroundColor: '#fbfbfb' }}
+                    key={index}
+                    checkedColor='#E84224'
+                    title={item}
+                    checked={this.state.shoppingList[index].isChecked}
+                    onPress={() =>
+                      this.handlePress(index)
+                    }
+                  />
+                  <View style={{ top: -36, right: 5 }}>
+                    <Text style={{ textAlign: 'right', marginRight: '5%', color: 'black', fontWeight: "bold" }}>Amount: {ingredient.amount}{' '}{ingredient.amount > 1 && ingredient.units === "tin" && "can" || "" ? ingredient.units + 's' : ingredient.units}</Text>
+                  </View>
+                </View>
+              )
+            })}
+            {numberItems !== 0 &&
+              <View style={{ alignItems: "center", padding: 10 }}>
+                <TouchableOpacity onPress={this.deleteBasket}>
+                  <Text style={{ color: "red", fontSize: 18 }} >Delete Basket</Text>
+                </TouchableOpacity>
               </View>
-            )
-          })}
-          {numberItems !== 0 &&
-            <View style={{ alignItems: "center", padding: 10 }}>
-              <TouchableOpacity onPress={this.deleteBasket}>
-                <Text style={{ color: "red", fontSize: 18 }} >Delete Basket</Text>
-              </TouchableOpacity>
-            </View>
-          }
-          <Text style={{ marginBottom: '30%' }} />
-        </ScrollView>
+            }
+            <Text style={{ marginBottom: 150 }} />
+          </ScrollView>
+        </ImageBackground>
       </View>
     );
   }

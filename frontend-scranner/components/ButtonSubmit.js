@@ -63,14 +63,14 @@ export default class ButtonSubmit extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    top: -50,
+    top: 200,
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'orange',
+    backgroundColor: '#E84224',
     height: MARGIN,
     borderRadius: 20,
     zIndex: 100,
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     backgroundColor: 'transparent',
+    fontSize: 18
   },
   image: {
     width: 24,

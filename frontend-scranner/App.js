@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar, StyleSheet, View, ImageBackground, Button } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, ImageBackground, KeyboardAvoidingView } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { createBottomTabNavigator, createSwitchNavigator, createStackNavigator } from 'react-navigation'
 import { Icon } from 'react-native-elements'
@@ -28,16 +28,18 @@ export default class App extends Component {
   }
   render() {
     return !this.state.login ?
-      (<ImageBackground
-        source={
-          require('./assets/photo-recipe.png')
-        }
-        style={styles = { flex: 1, height: '100%', width: '100%' }}
-      >
-        <Logo />
-        <Form getUser={this.getUser} />
-        <SignupSection />
-      </ImageBackground>
+      (<KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+        <ImageBackground
+          source={
+            require('./assets/scranner-background.jpg')
+          }
+          style={styles = { flex: 1, height: '100%', width: '100%' }}
+        >
+          <Logo />
+          <Form getUser={this.getUser} />
+          <SignupSection />
+        </ImageBackground>
+      </KeyboardAvoidingView>
       ) : (<AppNavigator
         screenProps={{ user: this.state.user, onLogout: () => this.handleLogout() }}
       />)
@@ -72,7 +74,8 @@ const BottomNavigator = createBottomTabNavigator({
     screen: HomeScreen,
     navigationOptions: () => ({
       tabBarOptions: {
-        showLabel: false
+        showLabel: false,
+        activeTintColor: '#60256b'
       },
       tabBarIcon: ({ tintColor }) => (
         <Icon
@@ -87,7 +90,8 @@ const BottomNavigator = createBottomTabNavigator({
     screen: PostScreen,
     navigationOptions: () => ({
       tabBarOptions: {
-        showLabel: false
+        showLabel: false,
+        activeTintColor: '#60256b'
       },
       tabBarIcon: ({ tintColor }) => (
         <Icon
@@ -102,7 +106,8 @@ const BottomNavigator = createBottomTabNavigator({
     screen: BasketScreen,
     navigationOptions: () => ({
       tabBarOptions: {
-        showLabel: false
+        showLabel: false,
+        activeTintColor: '#60256b'
       },
       tabBarIcon: ({ tintColor }) => (
         <Icon
@@ -120,7 +125,6 @@ const AppNavigator = createSwitchNavigator({
   User: UserScreen,
   Camera: CameraScreen,
   Post: PostScreen,
-  App,
 })
 
 const styles = StyleSheet.create({
