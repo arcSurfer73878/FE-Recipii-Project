@@ -71,6 +71,9 @@ export default class CameraExample extends Component {
     if (this.camera) {
       const options = { base64: true };
       this.setState({ isLoading: true })
+      setTimeout(() => {
+        this.setState({ isLoading: false })
+      }, 2000)
       this.camera.takePictureAsync(options)
         .then(data => {
           this.analyseRecipe(data.base64)
@@ -119,7 +122,8 @@ export default class CameraExample extends Component {
         this.parseIngredients(ingredients, serves, ingredientList[0]);
       })
       .catch(err => {
-        console.error("ERROR:", err);
+        alert('take a picture again')
+        // console.error("ERROR:", err);
       });
   };
 
